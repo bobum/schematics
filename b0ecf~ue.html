@@ -99,9 +99,9 @@
 			$.each(datamodel.components[1].plugs, function(index, secondaryPlug){
 					//loop though each pin on the plug
 					$.each(secondaryPlug.pins, function(index, secondaryPin){
-							if(primaryPin.name == secondaryPin.name){						
-								$("#output").append("<li>" + primaryString + primaryPin.name + " --> " + secondaryString + secondaryPlug.name+"."+secondaryPin.name + "</li>");
-							}
+						if(primaryPin.name == secondaryPin.name){						
+							$("#output").append("<li>" + primaryString + primaryPin.name + " --> " + secondaryString + secondaryPlug.name+"."+secondaryPin.name + "</li>");
+						}
 						});
 				});
 		});
