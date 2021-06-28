@@ -1,4 +1,4 @@
-{
+export const datamodel = {
  "components": [
    {
      "name": "Widget A",
@@ -70,4 +70,4 @@
          }]
      }]
    }]
-}
+};
