@@ -7,26 +7,33 @@
        "name": "p001",
        "pins": [
          {
-           "name": "aircraft power",
-           "number": 1
+           "name": "aircraftPower",
+           "number": 1,
+           "wireLabel": "w001"
          },         {
-           "name": "battery gnd",
-           "number": 2
+           "name": "batteryGnd",
+           "number": 2,
+            "wireLabel": "w002"
          },         {
-           "name": "audio lo",
-           "number": 3
+           "name": "audioLo",
+           "number": 3,
+            "wireLabel": "w003"
          },         {
-           "name": "audio hi",
-           "number": 4
+           "name": "audioHi",
+           "number": 4,
+            "wireLabel": "w003"
          },         {
-           "name": "out 1A",
-           "number": 5
+           "name": "out1A",
+           "number": 5,
+            "wireLabel": "w004"
          },         {
-           "name": "in 1A",
-           "number": 6
+           "name": "in1A",
+           "number": 6,
+            "wireLabel": "w004"
          },         {
-           "name": "in 1B",
-           "number": 7
+           "name": "in1B",
+           "number": 7,
+            "wireLabel": "w004"
          }]
      }]
    },
@@ -37,24 +44,29 @@
        "name": "p1001",
        "pins": [
          {
-           "name": "audio lo",
-           "number": 9
+           "name": "audioLo",
+           "number": 9,
+            "wireLabel": "w003"
          },         {
-           "name": "audio hi",
-           "number": 5
+           "name": "audioHi",
+           "number": 5,
+            "wireLabel": "w003"
          }]},
          {
        "name": "p1002",
        "pins": [
          {
-           "name": "in 1A",
-           "number": 1
+           "name": "in1A",
+           "number": 1,
+            "wireLabel": "w004"
          },         {
-           "name": "out 1A",
-           "number": 2
+           "name": "out1A",
+           "number": 2,
+            "wireLabel": "w004"
          },         {
-           "name": "out 1B",
-           "number": 6
+           "name": "out1B",
+           "number": 6,
+            "wireLabel": "w004"
          }]
      }]
    }]
