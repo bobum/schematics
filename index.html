@@ -96,14 +96,19 @@
   	let secondaryString = datamodel.components[1].name+".";
   	$.each(datamodel.components[0].plugs[0].pins, function(index, primaryPin){
 			//loop through all plugs on secondary component
+			let found = false;
 			$.each(datamodel.components[1].plugs, function(index, secondaryPlug){
 					//loop though each pin on the plug
 					$.each(secondaryPlug.pins, function(index, secondaryPin){
-							if(primaryPin.name == secondaryPin.name){						
+							if(primaryPin.name == secondaryPin.name){	
+								found = true;					
 								$("#output").append("<li>" + primaryString + primaryPin.name + " --> " + secondaryString + secondaryPlug.name+"."+secondaryPin.name + "</li>");
 							}
 						});
 				});
+			if(!found){
+				$("#output").append("<li>" + primaryString + primaryPin.name + " --> No Match</li>");
+							}
 		});
   </script>
 </html>
