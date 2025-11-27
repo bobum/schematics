@@ -22,6 +22,8 @@
   --stat-bg: white;
   --toggle-bg: rgba(255, 255, 255, 0.2);
   --toggle-active: #4CAF50;
+  --greeting-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --greeting-text: white;
 }
 
 [data-theme="dark"] {
@@ -43,6 +45,8 @@
   --stat-bg: #0f3460;
   --toggle-bg: rgba(255, 255, 255, 0.1);
   --toggle-active: #4CAF50;
+  --greeting-bg: linear-gradient(135deg, #4a5fc1 0%, #5a3d7a 100%);
+  --greeting-text: white;
 }
 
 * {
@@ -62,6 +66,84 @@ body {
 .container {
   max-width: 1400px;
   margin: 0 auto;
+}
+
+/* Greeting Banner Styles - PBI-124 */
+.greeting-banner {
+  background: var(--greeting-bg);
+  border-radius: 15px;
+  padding: 25px 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.greeting-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.greeting-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.greeting-icon {
+  font-size: 2.5em;
+  animation: wave 1s ease-in-out infinite;
+  display: inline-block;
+}
+
+.greeting-text {
+  color: var(--greeting-text);
+  font-size: 2em;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 .header-section {
@@ -370,4 +452,10 @@ h1 {
     width: 100%;
     justify-content: space-between;
   }
-}
+  
+  .greeting-text {
+    font-size: 1.5em;
+  }
+  
+  .greeting-icon {
+    font-size

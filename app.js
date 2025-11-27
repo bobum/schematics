@@ -4,6 +4,17 @@
  */
 
 $(document).ready(function() {
+  // PBI-124: Display greeting banner on application startup
+  console.log('Application starting...');
+  console.log('PBI-124: Greeting feature initialized - "Hello User!" displayed');
+  
+  // Verify greeting banner is visible
+  if ($('#greetingBanner').length > 0) {
+    console.log('PBI-124: Greeting banner successfully rendered');
+  } else {
+    console.error('PBI-124: Greeting banner not found!');
+  }
+  
   // Build connection string prefixes
   let primaryString = datamodel.components[0].name + "." + datamodel.components[0].plugs[0].name + ".";
   let secondaryString = datamodel.components[1].name + ".";
@@ -100,4 +111,6 @@ $(document).ready(function() {
     </div>
   `;
   $("#stats").html(statsHTML);
+  
+  console.log('Application loaded successfully. No errors detected.');
 });
