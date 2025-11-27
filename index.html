@@ -2,113 +2,279 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
-    <title>Basic JavaScript module example</title>
+    <title>Visual Connection Schematics</title>
     <style>
-      canvas {
-        border: 1px solid black;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
-    <script>
-    	let datamodel = {
- "components": [
-   {
-     "name": "Widget A",
-     "function": "solution 1",
-     "plugs": [{
-       "name": "p001",
-       "pins": [
-         {
-           "name": "aircraftPower",
-           "number": 1,
-           "wireLabel": "w001"
-         },         {
-           "name": "batteryGnd",
-           "number": 2,
-            "wireLabel": "w002"
-         },         {
-           "name": "audioLo",
-           "number": 3,
-            "wireLabel": "w003"
-         },         {
-           "name": "audioHi",
-           "number": 4,
-            "wireLabel": "w003"
-         },         {
-           "name": "out1A",
-           "number": 5,
-            "wireLabel": "w004"
-         },         {
-           "name": "in1A",
-           "number": 6,
-            "wireLabel": "w004"
-         },         {
-           "name": "in1B",
-           "number": 7,
-            "wireLabel": "w004"
-         }]
-     }]
-   },
-   {
-     "name": "Widget B",
-     "function": "solution 2",
-     "plugs": [{
-       "name": "p1001",
-       "pins": [
-         {
-           "name": "audioLo",
-           "number": 9,
-            "wireLabel": "w003"
-         },         {
-           "name": "audioHi",
-           "number": 5,
-            "wireLabel": "w003"
-         }]},
-         {
-       "name": "p1002",
-       "pins": [
-         {
-           "name": "in1A",
-           "number": 1,
-            "wireLabel": "w004"
-         },         {
-           "name": "out1A",
-           "number": 2,
-            "wireLabel": "w004"
-         },         {
-           "name": "out1B",
-           "number": 6,
-            "wireLabel": "w004"
-         }]
-     }]
-   }]
-};
 
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .connections-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+
+      .connection-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .connection-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+      }
+
+      .connection-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .connection-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .connection-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+      }
+
+      .connection-title {
+        flex: 1;
+      }
+
+      .connection-title h3 {
+        color: #333;
+        font-size: 1.3em;
+        margin-bottom: 5px;
+      }
+
+      .connection-subtitle {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .connection-flow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: all 0.2s ease;
+      }
+
+      .connection-flow:hover {
+        background: #e9ecef;
+        transform: translateX(5px);
+      }
+
+      .source-node {
+        background: #667eea;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9em;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        flex: 1;
+        text-align: center;
+      }
+
+      .arrow-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0 10px;
+      }
+
+      .arrow {
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+      }
+
+      .arrow::after {
+        content: '';
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid #764ba2;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+      }
+
+      .target-node {
+        background: #764ba2;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9em;
+        box-shadow: 0 2px 8px rgba(118, 75, 162, 0.3);
+        flex: 1;
+        text-align: center;
+      }
+
+      .no-match {
+        background: #dc3545;
+      }
+
+      .connection-badge {
+        display: inline-block;
+        background: #28a745;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75em;
+        font-weight: 600;
+        margin-left: 10px;
+      }
+
+      .no-match-badge {
+        background: #dc3545;
+      }
+
+      .connection-stats {
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        margin-top: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 2em;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .stat-label {
+        color: #666;
+        font-size: 0.85em;
+        margin-top: 5px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .connection-card {
+        animation: fadeIn 0.5s ease forwards;
+        opacity: 0;
+      }
+
+      .connection-card:nth-child(1) { animation-delay: 0.1s; }
+      .connection-card:nth-child(2) { animation-delay: 0.2s; }
+      .connection-card:nth-child(3) { animation-delay: 0.3s; }
+      .connection-card:nth-child(4) { animation-delay: 0.4s; }
+      .connection-card:nth-child(5) { animation-delay: 0.5s; }
+      .connection-card:nth-child(6) { animation-delay: 0.6s; }
+      .connection-card:nth-child(7) { animation-delay: 0.7s; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script>
+      let datamodel = {"components": [{"name": "Widget A","function": "solution 1","plugs": [{"name": "p001","pins": [{"name": "aircraftPower","number": 1,"wireLabel": "w001"},{"name": "batteryGnd","number": 2,"wireLabel": "w002"},{"name": "audioLo","number": 3,"wireLabel": "w003"},{"name": "audioHi","number": 4,"wireLabel": "w003"},{"name": "out1A","number": 5,"wireLabel": "w004"},{"name": "in1A","number": 6,"wireLabel": "w004"},{"name": "in1B","number": 7,"wireLabel": "w004"}]}]},{"name": "Widget B","function": "solution 2","plugs": [{"name": "p1001","pins": [{"name": "audioLo","number": 9,"wireLabel": "w003"},{"name": "audioHi","number": 5,"wireLabel": "w003"}]},{"name": "p1002","pins": [{"name": "in1A","number": 1,"wireLabel": "w004"},{"name": "out1A","number": 2,"wireLabel": "w004"},{"name": "out1B","number": 6,"wireLabel": "w004"}]}]}]};
     </script>
   </head>
   <body>
-<ul id="output"></ul>
+    <div class="container">
+      <h1>🔌 Connection Schematics Visualization</h1>
+      <div id="output" class="connections-grid"></div>
+      <div id="stats" class="connection-stats" style="max-width: 600px; margin: 30px auto;"></div>
+    </div>
   </body>
-  
   <script>
-  	//for each pin in primary component
-  	let primaryString = datamodel.components[0].name+"."+datamodel.components[0].plugs[0].name+".";
-  	let secondaryString = datamodel.components[1].name+".";
-  	$.each(datamodel.components[0].plugs[0].pins, function(index, primaryPin){
-			//loop through all plugs on secondary component
-			let found = false;
-			$.each(datamodel.components[1].plugs, function(index, secondaryPlug){
-					//loop though each pin on the plug
-					$.each(secondaryPlug.pins, function(index, secondaryPin){
-							if(primaryPin.name == secondaryPin.name){	
-								found = true;					
-								$("#output").append("<li>" + primaryString + primaryPin.name + " --> " + secondaryString + secondaryPlug.name+"."+secondaryPin.name + "</li>");
-							}
-						});
-				});
-			if(!found){
-				$("#output").append("<li>" + primaryString + primaryPin.name + " --> No Match</li>");
-							}
-		});
+    $(document).ready(function() {
+      let primaryString = datamodel.components[0].name + "." + datamodel.components[0].plugs[0].name + ".";
+      let secondaryString = datamodel.components[1].name + ".";
+      let totalConnections = 0;
+      let matchedConnections = 0;
+      let unmatchedConnections = 0;
+      $.each(datamodel.components[0].plugs[0].pins, function(index, primaryPin) {
+        totalConnections++;
+        let found = false;
+        let matchedTarget = "";
+        $.each(datamodel.components[1].plugs, function(index, secondaryPlug) {
+          $.each(secondaryPlug.pins, function(index, secondaryPin) {
+            if(primaryPin.name == secondaryPin.name) {
+              found = true;
+              matchedConnections++;
+              matchedTarget = secondaryString + secondaryPlug.name + "." + secondaryPin.name;
+              let connectionCard = '<div class="connection-card"><div class="connection-header"><div class="connection-icon">⚡</div><div class="connection-title"><h3>' + primaryPin.name + '</h3><div class="connection-subtitle">Wire: ' + primaryPin.wireLabel + ' | Pin: ' + primaryPin.number + '<span class="connection-badge">Connected</span></div></div></div><div class="connection-flow"><div class="source-node">' + primaryString + primaryPin.name + '</div><div class="arrow-container"><div class="arrow"></div></div><div class="target-node">' + matchedTarget + '</div></div></div>';
+              $("#output").append(connectionCard);
+            }
+          });
+        });
+        if(!found) {
+          unmatchedConnections++;
+          let noMatchCard = '<div class="connection-card"><div class="connection-header"><div class="connection-icon" style="background: #dc3545;">⚠</div><div class="connection-title"><h3>' + primaryPin.name + '</h3><div class="connection-subtitle">Wire: ' + primaryPin.wireLabel + ' | Pin: ' + primaryPin.number + '<span class="connection-badge no-match-badge">No Match</span></div></div></div><div class="connection-flow"><div class="source-node">' + primaryString + primaryPin.name + '</div><div class="arrow-container"><div class="arrow" style="background: #dc3545;"></div></div><div class="target-node no-match">No Match Found</div></div></div>';
+          $("#output").append(noMatchCard);
+        }
+      });
+      let statsHTML = '<div class="stat-item"><div class="stat-value">' + totalConnections + '</div><div class="stat-label">Total Pins</div></div><div class="stat-item"><div class="stat-value" style="color: #28a745;">' + matchedConnections + '</div><div class="stat-label">Connected</div></div><div class="stat-item"><div class="stat-value" style="color: #dc3545;">' + unmatchedConnections + '</div><div class="stat-label">Unmatched</div></div>';
+      $("#stats").html(statsHTML);
+    });
   </script>
 </html>
