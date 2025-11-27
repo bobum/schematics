@@ -1,0 +1,33 @@
+{
+  "name": "telemetry-test-feature",
+  "version": "1.0.0",
+  "description": "PBI-125: Simple test feature to generate telemetry data",
+  "main": "telemetry-test.js",
+  "scripts": {
+    "test": "jest telemetry-test.spec.js",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "demo": "open telemetry-test.html"
+  },
+  "keywords": [
+    "telemetry",
+    "analytics",
+    "tracking",
+    "monitoring",
+    "test",
+    "pbi-125"
+  ],
+  "author": "Front End Development Team",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/schematics.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/schematics/issues"
+  },
+  "homepage": "https://github.com/your-org/schematics#readme"
+}

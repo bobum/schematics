@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telemetry Test Feature - PBI-125</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        #telemetryOutput {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        #summary {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #17a2b8;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Telemetry Test Feature</h1>
+            <p>PBI-125: Simple test feature to generate telemetry data</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>📊 Track Events</h2>
+                <p>Click the buttons below to generate different types of telemetry events:</p>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="trackPageView()">Track Page View</button>
+                    <button class="btn-primary" onclick="trackInteraction()">Track Interaction</button>
+                    <button class="btn-primary" onclick="trackPerformance()">Track Performance</button>
+                    <button class="btn-danger" onclick="trackError()">Track Error</button>
+                    <button class="btn-success" onclick="trackCustomEvent()">Track Custom Event</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📈 Statistics</h2>
+                <div id="summary">
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <h3 id="totalEvents">0</h3>
+                            <p>Total Events</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="sessionDuration">0s</h3>
+                            <p>Session Duration</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="eventTypes">0</h3>
+                            <p>Event Types</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📝 Telemetry Output</h2>
+                <div class="info-box">
+                    <strong>Info:</strong> All tracked events are displayed below in real-time.
+                </div>
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="exportData()">Export Data</button>
+                    <button class="btn-secondary" onclick="clearData()">Clear Data</button>
+                    <button class="btn-secondary" onclick="updateSummary()">Refresh Summary</button>
+                </div>
+                <div id="telemetryOutput">Waiting for telemetry events...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="telemetry-test.js"></script>
+    <script>
+        // Initialize telemetry
+        const telemetry = new TelemetryTest();
+        let eventCounter = 0;
+
+        // Track page load
+        window.addEventListener('load', () => {
+            telemetry.trackPageView('Telemetry Test Page', window.location.href);
+            updateOutput();
+            updateSummary();
+        });
+
+        function trackPageView() {
+            telemetry.trackPageView('Test Page ' + (++eventCounter));
+            updateOutput();
+            updateSummary();
+        }
+
+        function trackInteraction() {
+            telemetry.trackInteraction('test-button-' + eventCounter, 'click');
+            updateOutput();
+            updateSummary();
+        }
+
+        function trackPerformance() {
+            const randomTime = Math.floor(Math.random() * 1000) + 100;
+            telemetry.trackPerformance('response_time', randomTime, 'ms');
+            updateOutput();
+            updateSummary();
+        }
+
+        function trackError() {
+            const testError = new Error('Test error for telemetry tracking');
+            telemetry.trackError(testError, 'telemetry-test-page');
+            updateOutput();
+            updateSummary();
+        }
+
+        function trackCustomEvent() {
+            telemetry.trackEvent('custom_event', {
+                feature: 'PBI-125',
+                testData: 'Custom telemetry data',
+                timestamp: new Date().toISOString()
+            });
+            updateOutput();
+            updateSummary();
+        }
+
+        function updateOutput() {
+            const output = document.getElementById('telemetryOutput');
+            const events = telemetry.getEvents();
+            
+            if (events.length === 0) {
+                output.textContent = 'Waiting for telemetry events...';
+            } else {
+                output.textContent = JSON.stringify(events, null, 2);
+                output.scrollTop = output.scrollHeight;
+            }
+        }
+
+        function updateSummary() {
+            const summary = telemetry.getSummary();
+            document.getElementById('totalEvents').textContent = summary.totalEvents;
+            document.getElementById('sessionDuration').textContent = 
+                Math.floor(summary.sessionDuration / 1000) + 's';
+            document.getElementById('eventTypes').textContent = 
+                Object.keys(summary.eventCounts).length;
+        }
+
+        function exportData() {
+            const data = telemetry.exportData();
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `telemetry-data-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('Telemetry data exported successfully!');
+        }
+
+        function clearData() {
+            if (confirm('Are you sure you want to clear all telemetry data?')) {
+                telemetry.clear();
+                updateOutput();
+                updateSummary();
+                alert('Telemetry data cleared!');
+            }
+        }
+
+        // Auto-update summary every 5 seconds
+        setInterval(updateSummary, 5000);
+    </script>
+</body>
+</html>
