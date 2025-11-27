@@ -1,17 +1,18 @@
 /**
  * Welcome Popup Script
- * Handles popup display, dismissal, and localStorage management
+ * Displays a welcome message to first-time visitors
+ * Uses localStorage to remember if user has seen the popup
  */
 
 (function() {
   'use strict';
   
-  // Constants
+  // Configuration
   const STORAGE_KEY = 'welcomePopupSeen';
-  const POPUP_VERSION = '1.0'; // Increment this if you want to show popup again to existing users
+  const POPUP_VERSION = '1.0'; // Change this to show popup again after updates
   
   /**
-   * Check if user has already seen the welcome popup
+   * Check if user has already seen the popup
    */
   function hasSeenPopup() {
     try {
@@ -24,7 +25,7 @@
   }
   
   /**
-   * Mark popup as seen in localStorage
+   * Mark popup as seen
    */
   function markPopupAsSeen() {
     try {
@@ -35,48 +36,33 @@
   }
   
   /**
-   * Create the popup HTML structure
+   * Create the popup HTML
    */
   function createPopupHTML() {
     return `
-      <div class="welcome-overlay" id="welcomeOverlay">
-        <div class="welcome-popup">
-          <button class="welcome-close" id="welcomeClose" aria-label="Close welcome popup">
-            ×
-          </button>
+      <div class="welcome-popup-overlay" id="welcomePopupOverlay">
+        <div class="welcome-popup" id="welcomePopup">
+          <button class="welcome-popup-close" id="welcomePopupClose" aria-label="Close popup">&times;</button>
           
-          <div class="welcome-header">
-            <div class="welcome-icon">👋</div>
-            <h2>Welcome!</h2>
-            <p>To Visual Connection Schematics</p>
+          <div class="welcome-popup-header">
+            <div class="welcome-popup-icon">🔌</div>
+            <h2 class="welcome-popup-title">Welcome!</h2>
+            <p class="welcome-popup-subtitle">Connection Schematics Visualization</p>
           </div>
           
-          <div class="welcome-body">
-            <h3>🚀 Get Started</h3>
-            <p>This interactive tool helps you visualize and understand electrical connection schematics with ease.</p>
-            
-            <ul class="welcome-features">
-              <li>
-                <div class="feature-icon">🔌</div>
-                <span><strong>Interactive Diagrams:</strong> Explore component connections visually</span>
-              </li>
-              <li>
-                <div class="feature-icon">🎨</div>
-                <span><strong>Dark Mode:</strong> Toggle between light and dark themes</span>
-              </li>
-              <li>
-                <div class="feature-icon">📊</div>
-                <span><strong>Connection Stats:</strong> View detailed wire and connection information</span>
-              </li>
-              <li>
-                <div class="feature-icon">✨</div>
-                <span><strong>Modern Design:</strong> Clean, responsive interface for all devices</span>
-              </li>
+          <div class="welcome-popup-content">
+            <p>Hello and welcome to our Visual Connection Schematics tool! We're excited to have you here.</p>
+            <ul>
+              <li>Visualize complex component connections</li>
+              <li>Track wire connections and pin mappings</li>
+              <li>Toggle between light and dark themes</li>
+              <li>Get real-time connection statistics</li>
             </ul>
-            
-            <button class="welcome-button" id="welcomeButton">
-              Let's Go! 🎯
-            </button>
+            <p>Explore the interface and discover how easy it is to understand your connection schematics!</p>
+          </div>
+          
+          <div class="welcome-popup-footer">
+            <button class="welcome-popup-button" id="welcomePopupButton">Get Started</button>
           </div>
         </div>
       </div>
@@ -87,13 +73,17 @@
    * Close the popup with animation
    */
   function closePopup() {
-    const overlay = document.getElementById('welcomeOverlay');
+    const overlay = document.getElementById('welcomePopupOverlay');
     if (overlay) {
-      overlay.classList.add('closing');
+      // Add fade out animation
+      overlay.style.animation = 'fadeInOverlay 0.3s ease reverse';
       
-      // Remove from DOM after animation completes
       setTimeout(() => {
-        overlay.remove();
+        overlay.classList.add('hidden');
+        // Remove from DOM after animation
+        setTimeout(() => {
+          overlay.remove();
+        }, 100);
       }, 300);
       
       // Mark as seen
@@ -102,34 +92,28 @@
   }
   
   /**
-   * Initialize the popup
+   * Show the popup
    */
-  function initWelcomePopup() {
-    // Check if user has already seen the popup
-    if (hasSeenPopup()) {
-      console.log('Welcome popup already seen by user');
-      return;
-    }
-    
-    // Create and inject popup HTML
+  function showPopup() {
+    // Create and inject the popup HTML
     const popupContainer = document.createElement('div');
     popupContainer.innerHTML = createPopupHTML();
     document.body.appendChild(popupContainer.firstElementChild);
     
     // Add event listeners
-    const closeButton = document.getElementById('welcomeClose');
-    const actionButton = document.getElementById('welcomeButton');
-    const overlay = document.getElementById('welcomeOverlay');
+    const closeButton = document.getElementById('welcomePopupClose');
+    const mainButton = document.getElementById('welcomePopupButton');
+    const overlay = document.getElementById('welcomePopupOverlay');
     
     if (closeButton) {
       closeButton.addEventListener('click', closePopup);
     }
     
-    if (actionButton) {
-      actionButton.addEventListener('click', closePopup);
+    if (mainButton) {
+      mainButton.addEventListener('click', closePopup);
     }
     
-    // Close on overlay click (outside popup)
+    // Close when clicking outside the popup
     if (overlay) {
       overlay.addEventListener('click', function(e) {
         if (e.target === overlay) {
@@ -138,34 +122,50 @@
       });
     }
     
-    // Close on Escape key
-    document.addEventListener('keydown', function(e) {
+    // Close with Escape key
+    document.addEventListener('keydown', function escapeHandler(e) {
       if (e.key === 'Escape') {
-        const overlay = document.getElementById('welcomeOverlay');
-        if (overlay) {
-          closePopup();
-        }
+        closePopup();
+        document.removeEventListener('keydown', escapeHandler);
       }
     });
-    
-    console.log('Welcome popup initialized');
   }
   
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWelcomePopup);
-  } else {
-    // DOM already loaded
-    initWelcomePopup();
+  /**
+   * Initialize the popup on page load
+   */
+  function init() {
+    // Wait for DOM to be fully loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        if (!hasSeenPopup()) {
+          // Small delay to let page render first
+          setTimeout(showPopup, 500);
+        }
+      });
+    } else {
+      // DOM already loaded
+      if (!hasSeenPopup()) {
+        setTimeout(showPopup, 500);
+      }
+    }
   }
   
-  // Expose function to reset popup for testing purposes
+  // Start the initialization
+  init();
+  
+  // Expose function to manually show popup (for testing/debugging)
+  window.showWelcomePopup = function() {
+    showPopup();
+  };
+  
+  // Expose function to reset popup state (for testing/debugging)
   window.resetWelcomePopup = function() {
     try {
       localStorage.removeItem(STORAGE_KEY);
-      console.log('Welcome popup reset. Reload the page to see it again.');
+      console.log('Welcome popup state reset. Refresh page to see it again.');
     } catch (e) {
-      console.error('Could not reset popup:', e);
+      console.warn('Could not reset popup state:', e);
     }
   };
   
