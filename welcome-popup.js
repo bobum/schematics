@@ -1,6 +1,6 @@
 /**
- * Welcome Popup Script
- * Displays a welcome message to first-time visitors
+ * Welcome Popup Script - PBI 1234
+ * Displays a "Hello User" welcome message to first-time visitors
  * Uses localStorage to remember if user has seen the popup
  */
 
@@ -45,13 +45,13 @@
           <button class="welcome-popup-close" id="welcomePopupClose" aria-label="Close popup">&times;</button>
           
           <div class="welcome-popup-header">
-            <div class="welcome-popup-icon">🔌</div>
-            <h2 class="welcome-popup-title">Welcome!</h2>
-            <p class="welcome-popup-subtitle">Connection Schematics Visualization</p>
+            <div class="welcome-popup-icon">👋</div>
+            <h2 class="welcome-popup-title">Hello User!</h2>
+            <p class="welcome-popup-subtitle">Welcome to Connection Schematics Visualization</p>
           </div>
           
           <div class="welcome-popup-content">
-            <p>Hello and welcome to our Visual Connection Schematics tool! We're excited to have you here.</p>
+            <p>Welcome! We're excited to have you here. This tool helps you visualize and understand complex component connections.</p>
             <ul>
               <li>Visualize complex component connections</li>
               <li>Track wire connections and pin mappings</li>
