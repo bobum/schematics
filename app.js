@@ -1,33 +1,25 @@
 /**
  * Connection Schematics Application - TASK-001 Enhanced
- * Visualizes component connections and pin mappings with rich visual interactions
- * Replaces simple list-based representation with interactive visual cards
+ * Visualizes component connections with interactive visual cards
+ * REPLACES simple list-based (<li>) representation with rich visual components
  * PBI-126: Enhanced with telemetry tracking
  */
 
 $(document).ready(function() {
-  // Track application start time for performance metrics
   const appStartTime = performance.now();
   
+  console.log('='.repeat(60));
   console.log('TASK-001: Enhanced Visual Connection Representation');
-  console.log('Application starting with interactive visual components...');
-  console.log('PBI-124: Greeting feature initialized - "Hello User!" displayed');
+  console.log('Replacing simple list elements with interactive visual cards');
+  console.log('='.repeat(60));
   
   // PBI-126: Track application initialization
   if (window.telemetry) {
     window.telemetry.logEvent(window.TelemetryEventTypes.PAGE_LOAD, {
-      message: 'Application initialized',
+      message: 'TASK-001: Application initialized with visual connections',
       feature: 'TASK-001 + PBI-126',
       components: datamodel.components.length
     });
-  }
-  
-  // Verify greeting banner is visible
-  if ($('#greetingBanner').length > 0) {
-    console.log('PBI-124: Greeting banner successfully rendered');
-    if (window.telemetry) {
-      window.telemetry.trackInteraction('banner', 'greetingBanner', 'displayed');
-    }
   }
   
   // Build connection string prefixes
@@ -39,17 +31,15 @@ $(document).ready(function() {
   let matchedConnections = 0;
   let unmatchedConnections = 0;
   
-  // Track connection processing start
   const connectionProcessStart = performance.now();
   
-  console.log('TASK-001: Building enhanced visual connection cards...');
+  console.log('TASK-001: Building visual connection cards...');
   
   // Iterate through primary pins to find connections
   $.each(datamodel.components[0].plugs[0].pins, function(index, primaryPin) {
     totalConnections++;
     let found = false;
     let matchedTarget = "";
-    let matchedPlugName = "";
     let matchedPinNumber = "";
     
     // Search for matching pins in secondary component
@@ -59,7 +49,6 @@ $(document).ready(function() {
           found = true;
           matchedConnections++;
           matchedTarget = secondaryString + secondaryPlug.name + "." + secondaryPin.name;
-          matchedPlugName = secondaryPlug.name;
           matchedPinNumber = secondaryPin.number;
           
           // PBI-126: Track matched connection
@@ -73,10 +62,11 @@ $(document).ready(function() {
             });
           }
           
-          // TASK-001: Create enhanced visual connection card for matched pins
+          // TASK-001: Create ENHANCED visual connection card (replaces <li>)
           let connectionCard = `
-            <div class="connection-card" data-connection-type="matched" data-pin-name="${primaryPin.name}" 
-                 data-animation-delay="${index * 0.1}s" style="animation-delay: ${index * 0.1}s;">
+            <div class="connection-card" data-connection-type="matched" 
+                 data-pin-name="${primaryPin.name}"
+                 style="animation-delay: ${index * 0.1}s;">
               <div class="connection-header">
                 <div class="connection-icon">⚡</div>
                 <div class="connection-title">
@@ -90,7 +80,7 @@ $(document).ready(function() {
               </div>
               <div class="connection-flow">
                 <div class="source-node" title="${primaryString}${primaryPin.name}">
-                  <div class="node-label">Source</div>
+                  <div class="node-label">SOURCE</div>
                   <div class="node-content">${primaryPin.name}</div>
                   <div class="node-pin">Pin ${primaryPin.number}</div>
                 </div>
@@ -101,7 +91,7 @@ $(document).ready(function() {
                   <div class="wire-label">${primaryPin.wireLabel}</div>
                 </div>
                 <div class="target-node" title="${matchedTarget}">
-                  <div class="node-label">Target</div>
+                  <div class="node-label">TARGET</div>
                   <div class="node-content">${secondaryPin.name}</div>
                   <div class="node-pin">Pin ${matchedPinNumber}</div>
                 </div>
@@ -133,10 +123,11 @@ $(document).ready(function() {
         });
       }
       
-      // TASK-001: Create enhanced visual connection card for unmatched pins
+      // TASK-001: Create ENHANCED visual card for unmatched (replaces <li>)
       let noMatchCard = `
-        <div class="connection-card" data-connection-type="unmatched" data-pin-name="${primaryPin.name}"
-             data-animation-delay="${index * 0.1}s" style="animation-delay: ${index * 0.1}s;">
+        <div class="connection-card" data-connection-type="unmatched"
+             data-pin-name="${primaryPin.name}"
+             style="animation-delay: ${index * 0.1}s;">
           <div class="connection-header">
             <div class="connection-icon" style="background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);">⚠</div>
             <div class="connection-title">
@@ -150,7 +141,7 @@ $(document).ready(function() {
           </div>
           <div class="connection-flow">
             <div class="source-node" title="${primaryString}${primaryPin.name}">
-              <div class="node-label">Source</div>
+              <div class="node-label">SOURCE</div>
               <div class="node-content">${primaryPin.name}</div>
               <div class="node-pin">Pin ${primaryPin.number}</div>
             </div>
@@ -161,7 +152,7 @@ $(document).ready(function() {
               <div class="wire-label">${primaryPin.wireLabel}</div>
             </div>
             <div class="target-node no-match" title="No matching connection found">
-              <div class="node-label">Target</div>
+              <div class="node-label">TARGET</div>
               <div class="node-content">No Match</div>
               <div class="node-pin">N/A</div>
             </div>
@@ -178,17 +169,16 @@ $(document).ready(function() {
     }
   });
   
-  console.log(`TASK-001: Created ${totalConnections} interactive visual connection cards`);
-  console.log(`  - ${matchedConnections} matched connections with animated flows`);
-  console.log(`  - ${unmatchedConnections} unmatched connections highlighted`);
-  
-  // Track connection processing time
   const connectionProcessTime = performance.now() - connectionProcessStart;
+  console.log(`TASK-001: Created ${totalConnections} interactive visual cards in ${connectionProcessTime.toFixed(2)}ms`);
+  console.log(`  ✓ ${matchedConnections} matched connections with animated flows`);
+  console.log(`  ✗ ${unmatchedConnections} unmatched connections highlighted`);
+  
   if (window.telemetry) {
     window.telemetry.trackPerformance('connection_processing', connectionProcessTime, 'ms');
   }
   
-  // TASK-001: Display enhanced connection statistics with visual indicators
+  // TASK-001: Enhanced statistics with visual indicators
   let statsHTML = `
     <div class="stat-item">
       <div class="stat-icon">📊</div>
@@ -211,7 +201,7 @@ $(document).ready(function() {
   `;
   $("#stats").html(statsHTML);
   
-  // PBI-126: Track connection statistics
+  // PBI-126: Track statistics
   if (window.telemetry) {
     window.telemetry.logEvent(window.TelemetryEventTypes.CUSTOM, {
       eventName: 'connection_statistics',
@@ -223,20 +213,17 @@ $(document).ready(function() {
     });
   }
   
-  // TASK-001: Add interactive click handlers for connection cards
+  // TASK-001: Add interactive click handlers
   $(document).on('click', '.connection-card', function() {
     const $card = $(this);
     const connectionType = $card.data('connection-type');
     const pinName = $card.find('h3').text();
     
-    // Add visual feedback
     $card.addClass('clicked');
     setTimeout(() => $card.removeClass('clicked'), 300);
     
-    // Log interaction
-    console.log(`TASK-001: User interacted with ${connectionType} connection: ${pinName}`);
+    console.log(`TASK-001: User clicked ${connectionType} connection: ${pinName}`);
     
-    // PBI-126: Track connection card clicks
     if (window.telemetry) {
       window.telemetry.trackInteraction('connection-card', 'connection_' + pinName, 'clicked', {
         connectionType: connectionType,
@@ -245,36 +232,32 @@ $(document).ready(function() {
       });
     }
     
-    // Highlight the clicked card
     $('.connection-card').removeClass('highlighted');
     $card.addClass('highlighted');
-    
     setTimeout(() => $card.removeClass('highlighted'), 2000);
   });
   
-  // TASK-001: Add hover effects for enhanced interactivity
+  // TASK-001: Add hover logging
   $(document).on('mouseenter', '.connection-card', function() {
     const pinName = $(this).find('h3').text();
     console.log(`TASK-001: Hovering over connection: ${pinName}`);
   });
   
-  // Track total application load time
   const totalLoadTime = performance.now() - appStartTime;
   if (window.telemetry) {
     window.telemetry.trackPerformance('total_app_load', totalLoadTime, 'ms');
   }
   
+  console.log('='.repeat(60));
   console.log('TASK-001: Visual representation complete!');
-  console.log('Application loaded successfully. Enhanced visual connections active.');
+  console.log(`Application loaded in ${totalLoadTime.toFixed(2)}ms`);
+  console.log('Enhanced visual connections active - NO list elements (<li>) used');
   console.log('PBI-126: Telemetry tracking active');
+  console.log('='.repeat(60));
   
-  // PBI-126: Setup telemetry dashboard functionality
   setupTelemetryDashboard();
 });
 
-/**
- * PBI-126: Setup Telemetry Dashboard
- */
 function setupTelemetryDashboard() {
   $('#showTelemetry').on('click', function() {
     if (window.telemetry) {
@@ -298,9 +281,6 @@ function setupTelemetryDashboard() {
   }, 5000);
 }
 
-/**
- * PBI-126: Update Telemetry Dashboard Content
- */
 function updateTelemetryDashboard() {
   if (!window.telemetry) return;
   
@@ -321,4 +301,19 @@ function updateTelemetryDashboard() {
         <div class="stat-value">${report.errors.length}</div>
         <div class="stat-label">Errors</div>
       </div>
-      <div class
+      <div class="telemetry-stat-card">
+        <div class="stat-value">${report.userInteractions.length}</div>
+        <div class="stat-label">Interactions</div>
+      </div>
+    </div>
+    <div class="telemetry-events-by-type">
+      <h3>Events by Type</h3>
+      ${Object.entries(stats.eventsByType).map(([type, count]) => `
+        <div class="event-type-row">
+          <span class="event-type-name">${type}</span>
+          <span class="event-type-count">${count}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  $('#telemetryStats').html(statsHTML);
