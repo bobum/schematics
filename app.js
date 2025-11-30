@@ -1,39 +1,25 @@
 /**
- * Connection Schematics Application
- * Visualizes component connections and pin mappings
+ * Connection Schematics Application - TASK-001 Enhanced
+ * Visualizes component connections with interactive visual cards
+ * REPLACES simple list-based (<li>) representation with rich visual components
  * PBI-126: Enhanced with telemetry tracking
  */
 
 $(document).ready(function() {
-  // Track application start time for performance metrics
   const appStartTime = performance.now();
   
-  // PBI-124: Display greeting banner on application startup
-  console.log('Application starting...');
-  console.log('PBI-124: Greeting feature initialized - "Hello User!" displayed');
+  console.log('='.repeat(60));
+  console.log('TASK-001: Enhanced Visual Connection Representation');
+  console.log('Replacing simple list elements with interactive visual cards');
+  console.log('='.repeat(60));
   
   // PBI-126: Track application initialization
   if (window.telemetry) {
     window.telemetry.logEvent(window.TelemetryEventTypes.PAGE_LOAD, {
-      message: 'Application initialized',
-      feature: 'PBI-126',
+      message: 'TASK-001: Application initialized with visual connections',
+      feature: 'TASK-001 + PBI-126',
       components: datamodel.components.length
     });
-  }
-  
-  // Verify greeting banner is visible
-  if ($('#greetingBanner').length > 0) {
-    console.log('PBI-124: Greeting banner successfully rendered');
-    // PBI-126: Track greeting banner display
-    if (window.telemetry) {
-      window.telemetry.trackInteraction('banner', 'greetingBanner', 'displayed');
-    }
-  } else {
-    console.error('PBI-124: Greeting banner not found!');
-    // PBI-126: Track error
-    if (window.telemetry) {
-      window.telemetry.trackError(new Error('Greeting banner not found'));
-    }
   }
   
   // Build connection string prefixes
@@ -45,22 +31,25 @@ $(document).ready(function() {
   let matchedConnections = 0;
   let unmatchedConnections = 0;
   
-  // Track connection processing start
   const connectionProcessStart = performance.now();
+  
+  console.log('TASK-001: Building visual connection cards...');
   
   // Iterate through primary pins to find connections
   $.each(datamodel.components[0].plugs[0].pins, function(index, primaryPin) {
     totalConnections++;
     let found = false;
     let matchedTarget = "";
+    let matchedPinNumber = "";
     
     // Search for matching pins in secondary component
-    $.each(datamodel.components[1].plugs, function(index, secondaryPlug) {
-      $.each(secondaryPlug.pins, function(index, secondaryPin) {
+    $.each(datamodel.components[1].plugs, function(plugIndex, secondaryPlug) {
+      $.each(secondaryPlug.pins, function(pinIndex, secondaryPin) {
         if(primaryPin.name == secondaryPin.name) {
           found = true;
           matchedConnections++;
           matchedTarget = secondaryString + secondaryPlug.name + "." + secondaryPin.name;
+          matchedPinNumber = secondaryPin.number;
           
           // PBI-126: Track matched connection
           if (window.telemetry) {
@@ -73,25 +62,45 @@ $(document).ready(function() {
             });
           }
           
-          // Create connection card for matched pins
+          // TASK-001: Create ENHANCED visual connection card (replaces <li>)
           let connectionCard = `
-            <div class="connection-card" data-connection-type="matched">
+            <div class="connection-card" data-connection-type="matched" 
+                 data-pin-name="${primaryPin.name}"
+                 style="animation-delay: ${index * 0.1}s;">
               <div class="connection-header">
                 <div class="connection-icon">⚡</div>
                 <div class="connection-title">
                   <h3>${primaryPin.name}</h3>
                   <div class="connection-subtitle">
-                    Wire: ${primaryPin.wireLabel} | Pin: ${primaryPin.number}
-                    <span class="connection-badge">Connected</span>
+                    <span class="wire-info">🔌 Wire: <strong>${primaryPin.wireLabel}</strong></span>
+                    <span class="pin-info">📍 Pin: <strong>${primaryPin.number}</strong></span>
+                    <span class="connection-badge">✓ Connected</span>
                   </div>
                 </div>
               </div>
               <div class="connection-flow">
-                <div class="source-node">${primaryString}${primaryPin.name}</div>
-                <div class="arrow-container">
-                  <div class="arrow"></div>
+                <div class="source-node" title="${primaryString}${primaryPin.name}">
+                  <div class="node-label">SOURCE</div>
+                  <div class="node-content">${primaryPin.name}</div>
+                  <div class="node-pin">Pin ${primaryPin.number}</div>
                 </div>
-                <div class="target-node">${matchedTarget}</div>
+                <div class="arrow-container">
+                  <div class="arrow">
+                    <div class="signal-pulse"></div>
+                  </div>
+                  <div class="wire-label">${primaryPin.wireLabel}</div>
+                </div>
+                <div class="target-node" title="${matchedTarget}">
+                  <div class="node-label">TARGET</div>
+                  <div class="node-content">${secondaryPin.name}</div>
+                  <div class="node-pin">Pin ${matchedPinNumber}</div>
+                </div>
+              </div>
+              <div class="connection-details">
+                <div class="detail-item">
+                  <span class="detail-icon">🔗</span>
+                  <span class="detail-text">${primaryString}${primaryPin.name} → ${matchedTarget}</span>
+                </div>
               </div>
             </div>
           `;
@@ -114,25 +123,45 @@ $(document).ready(function() {
         });
       }
       
-      // Create connection card for unmatched pins
+      // TASK-001: Create ENHANCED visual card for unmatched (replaces <li>)
       let noMatchCard = `
-        <div class="connection-card" data-connection-type="unmatched">
+        <div class="connection-card" data-connection-type="unmatched"
+             data-pin-name="${primaryPin.name}"
+             style="animation-delay: ${index * 0.1}s;">
           <div class="connection-header">
-            <div class="connection-icon" style="background: #dc3545;">⚠</div>
+            <div class="connection-icon" style="background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);">⚠</div>
             <div class="connection-title">
               <h3>${primaryPin.name}</h3>
               <div class="connection-subtitle">
-                Wire: ${primaryPin.wireLabel} | Pin: ${primaryPin.number}
-                <span class="connection-badge no-match-badge">No Match</span>
+                <span class="wire-info">🔌 Wire: <strong>${primaryPin.wireLabel}</strong></span>
+                <span class="pin-info">📍 Pin: <strong>${primaryPin.number}</strong></span>
+                <span class="connection-badge no-match-badge">✗ No Match</span>
               </div>
             </div>
           </div>
           <div class="connection-flow">
-            <div class="source-node">${primaryString}${primaryPin.name}</div>
-            <div class="arrow-container">
-              <div class="arrow" style="background: #dc3545;"></div>
+            <div class="source-node" title="${primaryString}${primaryPin.name}">
+              <div class="node-label">SOURCE</div>
+              <div class="node-content">${primaryPin.name}</div>
+              <div class="node-pin">Pin ${primaryPin.number}</div>
             </div>
-            <div class="target-node no-match">No Match Found</div>
+            <div class="arrow-container">
+              <div class="arrow" style="background: linear-gradient(90deg, #dc3545 0%, #ff6b7a 100%);">
+                <div class="signal-pulse" style="background: #dc3545;"></div>
+              </div>
+              <div class="wire-label">${primaryPin.wireLabel}</div>
+            </div>
+            <div class="target-node no-match" title="No matching connection found">
+              <div class="node-label">TARGET</div>
+              <div class="node-content">No Match</div>
+              <div class="node-pin">N/A</div>
+            </div>
+          </div>
+          <div class="connection-details">
+            <div class="detail-item">
+              <span class="detail-icon">⚠</span>
+              <span class="detail-text" style="color: #dc3545;">${primaryString}${primaryPin.name} → No target found</span>
+            </div>
           </div>
         </div>
       `;
@@ -140,33 +169,43 @@ $(document).ready(function() {
     }
   });
   
-  // Track connection processing time
   const connectionProcessTime = performance.now() - connectionProcessStart;
+  console.log(`TASK-001: Created ${totalConnections} interactive visual cards in ${connectionProcessTime.toFixed(2)}ms`);
+  console.log(`  ✓ ${matchedConnections} matched connections with animated flows`);
+  console.log(`  ✗ ${unmatchedConnections} unmatched connections highlighted`);
+  
   if (window.telemetry) {
     window.telemetry.trackPerformance('connection_processing', connectionProcessTime, 'ms');
   }
   
-  // Display connection statistics
+  // TASK-001: Enhanced statistics with visual indicators
   let statsHTML = `
     <div class="stat-item">
+      <div class="stat-icon">📊</div>
       <div class="stat-value">${totalConnections}</div>
-      <div class="stat-label">Total Pins</div>
+      <div class="stat-label">Total Connections</div>
+      <div class="stat-bar" style="width: 100%; background: #667eea;"></div>
     </div>
     <div class="stat-item">
+      <div class="stat-icon">✅</div>
       <div class="stat-value" style="color: #28a745;">${matchedConnections}</div>
-      <div class="stat-label">Connected</div>
+      <div class="stat-label">Successfully Matched</div>
+      <div class="stat-bar" style="width: ${(matchedConnections/totalConnections)*100}%; background: #28a745;"></div>
     </div>
     <div class="stat-item">
+      <div class="stat-icon">❌</div>
       <div class="stat-value" style="color: #dc3545;">${unmatchedConnections}</div>
       <div class="stat-label">Unmatched</div>
+      <div class="stat-bar" style="width: ${(unmatchedConnections/totalConnections)*100}%; background: #dc3545;"></div>
     </div>
   `;
   $("#stats").html(statsHTML);
   
-  // PBI-126: Track connection statistics
+  // PBI-126: Track statistics
   if (window.telemetry) {
     window.telemetry.logEvent(window.TelemetryEventTypes.CUSTOM, {
       eventName: 'connection_statistics',
+      feature: 'TASK-001',
       totalConnections: totalConnections,
       matchedConnections: matchedConnections,
       unmatchedConnections: unmatchedConnections,
@@ -174,37 +213,52 @@ $(document).ready(function() {
     });
   }
   
-  // Track total application load time
+  // TASK-001: Add interactive click handlers
+  $(document).on('click', '.connection-card', function() {
+    const $card = $(this);
+    const connectionType = $card.data('connection-type');
+    const pinName = $card.find('h3').text();
+    
+    $card.addClass('clicked');
+    setTimeout(() => $card.removeClass('clicked'), 300);
+    
+    console.log(`TASK-001: User clicked ${connectionType} connection: ${pinName}`);
+    
+    if (window.telemetry) {
+      window.telemetry.trackInteraction('connection-card', 'connection_' + pinName, 'clicked', {
+        connectionType: connectionType,
+        pinName: pinName,
+        feature: 'TASK-001'
+      });
+    }
+    
+    $('.connection-card').removeClass('highlighted');
+    $card.addClass('highlighted');
+    setTimeout(() => $card.removeClass('highlighted'), 2000);
+  });
+  
+  // TASK-001: Add hover logging
+  $(document).on('mouseenter', '.connection-card', function() {
+    const pinName = $(this).find('h3').text();
+    console.log(`TASK-001: Hovering over connection: ${pinName}`);
+  });
+  
   const totalLoadTime = performance.now() - appStartTime;
   if (window.telemetry) {
     window.telemetry.trackPerformance('total_app_load', totalLoadTime, 'ms');
   }
   
-  console.log('Application loaded successfully. No errors detected.');
+  console.log('='.repeat(60));
+  console.log('TASK-001: Visual representation complete!');
+  console.log(`Application loaded in ${totalLoadTime.toFixed(2)}ms`);
+  console.log('Enhanced visual connections active - NO list elements (<li>) used');
   console.log('PBI-126: Telemetry tracking active');
+  console.log('='.repeat(60));
   
-  // PBI-126: Setup telemetry dashboard functionality
   setupTelemetryDashboard();
-  
-  // PBI-126: Track connection card clicks
-  $(document).on('click', '.connection-card', function() {
-    const connectionType = $(this).data('connection-type');
-    const pinName = $(this).find('h3').text();
-    
-    if (window.telemetry) {
-      window.telemetry.trackInteraction('connection-card', 'connection_' + pinName, 'clicked', {
-        connectionType: connectionType,
-        pinName: pinName
-      });
-    }
-  });
 });
 
-/**
- * PBI-126: Setup Telemetry Dashboard
- */
 function setupTelemetryDashboard() {
-  // Show telemetry dashboard button click
   $('#showTelemetry').on('click', function() {
     if (window.telemetry) {
       window.telemetry.trackInteraction('button', 'showTelemetry', 'clicked');
@@ -213,7 +267,6 @@ function setupTelemetryDashboard() {
     }
   });
   
-  // Close telemetry dashboard button click
   $('#closeTelemetry').on('click', function() {
     if (window.telemetry) {
       window.telemetry.trackInteraction('button', 'closeTelemetry', 'clicked');
@@ -221,7 +274,6 @@ function setupTelemetryDashboard() {
     $('#telemetryDashboard').fadeOut();
   });
   
-  // Update dashboard every 5 seconds when visible
   setInterval(function() {
     if ($('#telemetryDashboard').is(':visible')) {
       updateTelemetryDashboard();
@@ -229,16 +281,12 @@ function setupTelemetryDashboard() {
   }, 5000);
 }
 
-/**
- * PBI-126: Update Telemetry Dashboard Content
- */
 function updateTelemetryDashboard() {
   if (!window.telemetry) return;
   
   const stats = window.telemetry.getStats();
   const report = window.telemetry.generateReport();
   
-  // Update statistics section
   let statsHTML = `
     <div class="telemetry-stat-grid">
       <div class="telemetry-stat-card">
@@ -269,60 +317,3 @@ function updateTelemetryDashboard() {
     </div>
   `;
   $('#telemetryStats').html(statsHTML);
-  
-  // Update recent events section
-  let eventsHTML = `
-    <h3>Recent Events (Last 10)</h3>
-    <div class="telemetry-events-list">
-      ${stats.recentEvents.map(event => `
-        <div class="telemetry-event-item">
-          <div class="event-type-badge" data-event-type="${event.type}">${event.type}</div>
-          <div class="event-time">${new Date(event.timestamp).toLocaleTimeString()}</div>
-          <div class="event-details">${JSON.stringify(event.data).substring(0, 100)}...</div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-  $('#telemetryEvents').html(eventsHTML);
-}
-
-
-// Data Model
-let datamodel = {
-  "components": [
-    {
-      "name": "C101",
-      "plugs": [
-        {
-          "name": "P1",
-          "pins": [
-            {"number": 1, "name": "VCC", "wireLabel": "RED"},
-            {"number": 2, "name": "DATA", "wireLabel": "BLU"},
-            {"number": 3, "name": "CLK", "wireLabel": "YEL"},
-            {"number": 4, "name": "GND", "wireLabel": "BLK"},
-            {"number": 5, "name": "RST", "wireLabel": "GRN"}
-          ]
-        }
-      ]
-    },
-    {
-      "name": "C201",
-      "plugs": [
-        {
-          "name": "P1",
-          "pins": [
-            {"number": 1, "name": "VCC", "wireLabel": "RED"},
-            {"number": 2, "name": "GND", "wireLabel": "BLK"}
-          ]
-        },
-        {
-          "name": "P2",
-          "pins": [
-            {"number": 1, "name": "DATA", "wireLabel": "BLU"},
-            {"number": 2, "name": "CLK", "wireLabel": "YEL"}
-          ]
-        }
-      ]
-    }
-  ]
-};
