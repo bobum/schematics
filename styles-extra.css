@@ -1,0 +1,145 @@
+/* TASK-001: Additional enhanced styles for visual connections */
+
+/* Statistics Panel */
+.connection-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background: var(--stat-bg);
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 10px 30px var(--card-shadow);
+  gap: 20px;
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.stat-icon {
+  font-size: 2em;
+  margin-bottom: 10px;
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+.stat-value {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #667eea;
+  margin: 10px 0;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.stat-bar {
+  height: 4px;
+  background: #667eea;
+  border-radius: 2px;
+  margin-top: 10px;
+  transition: width 1s ease;
+  animation: barGrow 1s ease forwards;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+  50% { transform: scale(1.1); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes flowAnimation {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes dotMove {
+  0% { left: 0; opacity: 1; }
+  50% { left: 50%; opacity: 0.5; }
+  100% { left: 100%; opacity: 1; }
+}
+
+@keyframes arrowPulse {
+  0%, 100% { transform: translateY(-50%) scale(1); }
+  50% { transform: translateY(-50%) scale(1.2); }
+}
+
+@keyframes signalFlow {
+  0% { left: 0; opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@keyframes cardClick {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.98); }
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes barGrow {
+  from { width: 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  h1 { font-size: 2em; }
+  
+  .connections-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .connection-flow {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .arrow-container {
+    transform: rotate(90deg);
+  }
+  
+  .connection-stats {
+    flex-direction: column;
+  }
+  
+  .greeting-text { font-size: 1.5em; }
+  .greeting-icon { font-size: 2em; }
+}
