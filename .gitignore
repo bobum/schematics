@@ -1,3 +1,4 @@
+# Python specific
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -51,6 +52,24 @@ ENV/
 env/
 .venv/
 
+# Node.js / JavaScript specific
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+.nyc_output/
+
+# Testing
+.jest/
+
 # IDE specific files
 .vscode/
 .idea/
@@ -60,14 +79,27 @@ env/
 .DS_Store
 
 # Logs
+logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Local configuration
+# Environment variables
 .env
 .env.local
+.env.*.local
 config.local.py
 
 # Database
 *.db
 *.sqlite
 *.sqlite3
+
+# Build output
+build/
+dist/
+
+# Temporary files
+tmp/
+temp/
