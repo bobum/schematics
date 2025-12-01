@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>User Registration - Visual Connection Schematics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="registration-styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-section">
+        <h1>🔐 User Registration</h1>
+        <a href="index.html" class="back-link">← Back to Home</a>
+      </div>
+      
+      <div class="registration-container">
+        <form id="registrationForm" class="registration-form" novalidate>
+          <div class="form-group">
+            <label for="username">Username *</label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              required 
+              minlength="3" 
+              maxlength="20"
+              pattern="^[a-zA-Z0-9_]+$"
+              aria-describedby="usernameError usernameHelp"
+            >
+            <span class="help-text" id="usernameHelp">3-20 characters, alphanumeric and underscore only</span>
+            <span class="error-message" id="usernameError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              required
+              aria-describedby="emailError emailHelp"
+            >
+            <span class="help-text" id="emailHelp">Enter a valid email address</span>
+            <span class="error-message" id="emailError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password *</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              required 
+              minlength="8"
+              aria-describedby="passwordError passwordHelp"
+            >
+            <span class="help-text" id="passwordHelp">At least 8 characters, include uppercase, lowercase, number, and special character</span>
+            <span class="error-message" id="passwordError" aria-live="polite"></span>
+            <div class="password-strength" id="passwordStrength">
+              <div class="strength-bar" id="strengthBar"></div>
+              <span class="strength-text" id="strengthText"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password *</label>
+            <input 
+              type="password" 
+              id="confirmPassword" 
+              name="confirmPassword" 
+              required
+              aria-describedby="confirmPasswordError"
+            >
+            <span class="error-message" id="confirmPasswordError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input 
+              type="text" 
+              id="fullName" 
+              name="fullName" 
+              maxlength="50"
+              aria-describedby="fullNameError"
+            >
+            <span class="error-message" id="fullNameError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              name="phone" 
+              pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+              aria-describedby="phoneError phoneHelp"
+            >
+            <span class="help-text" id="phoneHelp">Format: (123) 456-7890 or +1234567890</span>
+            <span class="error-message" id="phoneError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label>
+              <input 
+                type="checkbox" 
+                id="terms" 
+                name="terms" 
+                required
+                aria-describedby="termsError"
+              >
+              <span>I agree to the Terms and Conditions *</span>
+            </label>
+            <span class="error-message" id="termsError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label>
+              <input 
+                type="checkbox" 
+                id="newsletter" 
+                name="newsletter"
+              >
+              <span>Subscribe to newsletter</span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submitBtn">Register</button>
+            <button type="reset" class="btn btn-secondary" id="resetBtn">Clear Form</button>
+          </div>
+
+          <div class="success-message" id="successMessage" style="display: none;">
+            ✓ Registration successful! Welcome aboard!
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <script src="registration-validation.js"></script>
+  </body>
+</html>
