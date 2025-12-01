@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Settings - Visual Connection Schematics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="settings-styles.css">
+    <link rel="stylesheet" href="telemetry-styles.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="settings-header">
+        <div class="header-content">
+          <h1>⚙️ Settings</h1>
+          <p class="subtitle">Customize your experience</p>
+        </div>
+        <a href="index.html" class="back-button">← Back to Schematics</a>
+      </div>
+
+      <div class="settings-container">
+        <!-- Appearance Settings -->
+        <div class="settings-section">
+          <div class="section-header">
+            <div class="section-icon">🎨</div>
+            <div class="section-info">
+              <h2>Appearance</h2>
+              <p class="section-description">Customize the look and feel of the application</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Dark Mode Toggle -->
+            <div class="setting-card featured">
+              <div class="setting-header">
+                <div class="setting-icon" id="themeSettingIcon">🌙</div>
+                <div class="setting-info">
+                  <h3>Dark Mode</h3>
+                  <p class="setting-description">Switch between light and dark theme for comfortable viewing</p>
+                </div>
+              </div>
+              <div class="setting-control">
+                <div class="toggle-switch large" id="themeToggle">
+                  <div class="toggle-slider"></div>
+                </div>
+              </div>
+              <div class="setting-status" id="themeStatus">
+                <span class="status-badge" id="themeStatusBadge">Light Mode Active</span>
+              </div>
+            </div>
+
+            <!-- Auto Theme Switching -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <div class="setting-icon">⏰</div>
+                <div class="setting-info">
+                  <h3>Auto Theme</h3>
+                  <p class="setting-description">Automatically switch theme based on time of day</p>
+                </div>
+              </div>
+              <div class="setting-control">
+                <div class="toggle-switch" id="autoThemeToggle">
+                  <div class="toggle-slider"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display Settings -->
+        <div class="settings-section">
+          <div class="section-header">
+            <div class="section-icon">💻</div>
+            <div class="section-info">
+              <h2>Display</h2>
+              <p class="section-description">Configure display and animation preferences</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Animations -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <div class="setting-icon">✨</div>
+                <div class="setting-info">
+                  <h3>Animations</h3>
+                  <p class="setting-description">Enable smooth transitions and animations</p>
+                </div>
+              </div>
+              <div class="setting-control">
+                <div class="toggle-switch active" id="animationsToggle">
+                  <div class="toggle-slider"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- High Contrast -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <div class="setting-icon">👁️</div>
+                <div class="setting-info">
+                  <h3>High Contrast</h3>
+                  <p class="setting-description">Increase contrast for better visibility</p>
+                </div>
+              </div>
+              <div class="setting-control">
+                <div class="toggle-switch" id="contrastToggle">
+                  <div class="toggle-slider"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy Settings -->
+        <div class="settings-section">
+          <div class="section-header">
+            <div class="section-icon">🔒</div>
+            <div class="section-info">
+              <h2>Privacy & Data</h2>
+              <p class="section-description">Control your data and privacy preferences</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Telemetry -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <div class="setting-icon">📊</div>
+                <div class="setting-info">
+                  <h3>Usage Analytics</h3>
+                  <p class="setting-description">Help improve the app by sharing usage data</p>
+                </div>
+              </div>
+              <div class="setting-control">
+                <div class="toggle-switch active" id="telemetryToggle">
+                  <div class="toggle-slider"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="settings-actions">
+          <button class="action-button primary" id="saveSettings">
+            <span class="button-icon">💾</span>
+            Save Settings
+          </button>
+          <button class="action-button secondary" id="resetSettings">
+            <span class="button-icon">🔄</span>
+            Reset to Defaults
+          </button>
+          <button class="action-button danger" id="clearData">
+            <span class="button-icon">🗑️</span>
+            Clear All Data
+          </button>
+        </div>
+
+        <!-- Settings Info -->
+        <div class="settings-info-panel">
+          <div class="info-icon">ℹ️</div>
+          <div class="info-content">
+            <h4>About Settings</h4>
+            <p>Your preferences are automatically saved to your browser's local storage. Changes take effect immediately.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="telemetry.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>

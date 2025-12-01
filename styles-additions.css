@@ -1,0 +1,61 @@
+/* Settings Button Styles - Added for test_004 */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.settings-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--toggle-bg);
+  border-radius: 50px;
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95em;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.settings-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.settings-icon {
+  font-size: 1.2em;
+  animation: rotateSettings 4s ease-in-out infinite;
+}
+
+@keyframes rotateSettings {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+}
+
+.settings-button:hover .settings-icon {
+  animation: rotateSettings 0.5s ease-in-out;
+}
+
+/* Responsive update for header controls */
+@media (max-width: 768px) {
+  .header-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .settings-button,
+  .theme-toggle-container {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
