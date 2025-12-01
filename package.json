@@ -1,0 +1,25 @@
+{
+  "name": "authentication-module",
+  "version": "1.0.0",
+  "description": "Comprehensive authentication module with user registration, login, session management, and unit tests",
+  "main": "auth.js",
+  "scripts": {
+    "test": "node auth.test.js",
+    "start": "node auth.js"
+  },
+  "keywords": [
+    "authentication",
+    "auth",
+    "login",
+    "session",
+    "user-management",
+    "security"
+  ],
+  "author": "Software Developer Agent",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
