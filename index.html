@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="styles.css">
     <!-- PBI-126: Telemetry styles -->
     <link rel="stylesheet" href="telemetry-styles.css">
+    <!-- test_001: Registration form styles -->
+    <link rel="stylesheet" href="registration-styles.css">
     <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
     <script>
       let datamodel = {"components": [{"name": "Widget A","function": "solution 1","plugs": [{"name": "p001","pins": [{"name": "aircraftPower","number": 1,"wireLabel": "w001"},{"name": "batteryGnd","number": 2,"wireLabel": "w002"},{"name": "audioLo","number": 3,"wireLabel": "w003"},{"name": "audioHi","number": 4,"wireLabel": "w003"},{"name": "out1A","number": 5,"wireLabel": "w004"},{"name": "in1A","number": 6,"wireLabel": "w004"},{"name": "in1B","number": 7,"wireLabel": "w004"}]}]},{"name": "Widget B","function": "solution 2","plugs": [{"name": "p1001","pins": [{"name": "audioLo","number": 9,"wireLabel": "w003"},{"name": "audioHi","number": 5,"wireLabel": "w003"}]},{"name": "p1002","pins": [{"name": "in1A","number": 1,"wireLabel": "w004"},{"name": "out1A","number": 2,"wireLabel": "w004"},{"name": "out1B","number": 6,"wireLabel": "w004"}]}]}]};
@@ -27,6 +29,88 @@
           </div>
         </div>
       </div>
+      
+      <!-- test_001: User Registration Form -->
+      <div class="registration-section">
+        <button id="showRegistrationBtn" class="show-registration-btn">👤 Register</button>
+        
+        <div id="registrationModal" class="registration-modal" style="display: none;">
+          <div class="registration-modal-content">
+            <div class="registration-header">
+              <h2>User Registration</h2>
+              <button id="closeRegistration" class="close-btn">✕</button>
+            </div>
+            
+            <form id="registrationForm" class="registration-form" novalidate>
+              <div class="form-group">
+                <label for="username">Username *</label>
+                <input type="text" id="username" name="username" required>
+                <span class="error-message" id="usernameError"></span>
+                <span class="help-text">3-20 characters, letters, numbers, underscore, hyphen</span>
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-message" id="emailError"></span>
+                <span class="help-text">Valid email address required</span>
+              </div>
+              
+              <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="password" required>
+                <span class="error-message" id="passwordError"></span>
+                <span class="help-text">Minimum 8 characters, including uppercase, lowercase, number, and special character</span>
+              </div>
+              
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password *</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <span class="error-message" id="confirmPasswordError"></span>
+              </div>
+              
+              <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required>
+                <span class="error-message" id="fullNameError"></span>
+                <span class="help-text">2-50 characters</span>
+              </div>
+              
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+                <span class="error-message" id="phoneError"></span>
+                <span class="help-text">Format: +1-234-567-8900 or (234) 567-8900</span>
+              </div>
+              
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="13" max="120">
+                <span class="error-message" id="ageError"></span>
+                <span class="help-text">Must be 13 or older</span>
+              </div>
+              
+              <div class="form-group checkbox-group">
+                <label>
+                  <input type="checkbox" id="terms" name="terms" required>
+                  I agree to the Terms and Conditions *
+                </label>
+                <span class="error-message" id="termsError"></span>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="submit-btn">Register</button>
+                <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+              </div>
+              
+              <div id="formSuccessMessage" class="success-message" style="display: none;">
+                ✅ Registration successful!
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
       <div id="output" class="connections-grid"></div>
       <div id="stats" class="connection-stats" style="max-width: 600px; margin: 30px auto;"></div>
       
@@ -47,5 +131,7 @@
     </div>
     <script src="dark-mode.js"></script>
     <script src="app.js"></script>
+    <!-- test_001: Registration validation script -->
+    <script src="registration-validation.js"></script>
   </body>
 </html>
