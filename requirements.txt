@@ -1,0 +1,9 @@
+# User Registration Form Validation Module
+# This module has no external dependencies and uses only Python standard library
+
+# For development and testing (optional):
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
+# black>=22.0.0
+# flake8>=5.0.0
+# mypy>=0.990
