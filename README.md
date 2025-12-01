@@ -1,113 +1,283 @@
-# Visual Connection Schematics - Dark Mode Feature
+# User Preferences REST API
 
-## Overview
-This project visualizes component connections and pin mappings with a beautiful, interactive interface. The dark mode feature provides users with a comfortable viewing experience in low-light environments.
+A comprehensive REST API for managing user preferences including theme, language, notifications, and privacy settings.
 
 ## Features
 
-### Dark Mode Implementation (DM-001)
-- **Toggle Switch**: Intuitive UI toggle in the header for switching between light and dark themes
-- **Persistent Preference**: User's theme choice is saved in localStorage and restored on page reload
-- **Smooth Transitions**: All theme changes animate smoothly with CSS transitions
-- **Comprehensive Theming**: All UI elements adapt to the selected theme using CSS variables
+- **Complete CRUD Operations**: Create, Read, Update, Patch, and Delete user preferences
+- **Authentication**: JWT-based authentication for secure access
+- **Validation**: Comprehensive input validation using express-validator
+- **Database**: MySQL database with optimized schema
+- **Testing**: Full test coverage with Jest and Supertest
+- **Security**: Helmet.js for HTTP headers, CORS configuration
+- **Documentation**: Well-documented code with JSDoc comments
 
-## File Structure
+## API Endpoints
 
+### Get User Preferences
 ```
-.
-├── index.html          # Main HTML structure with theme toggle UI
-├── styles.css          # Complete CSS with light/dark theme variables
-├── app.js              # Connection visualization logic
-├── dark-mode.js        # Dark mode toggle functionality
-└── README.md           # This file
+GET /api/preferences/:userId
 ```
+Retrieves preferences for a specific user.
 
-## How It Works
+**Headers:**
+- `Authorization: Bearer <token>`
 
-### CSS Variables
-The application uses CSS custom properties (variables) to manage theme colors:
-
-**Light Mode Colors:**
-- Background gradients: Purple/blue tones (#667eea, #764ba2)
-- Card backgrounds: White
-- Text: Dark gray (#333, #666)
-
-**Dark Mode Colors:**
-- Background gradients: Dark navy tones (#1a1a2e, #16213e)
-- Card backgrounds: Deep blue (#0f3460)
-- Text: Light gray (#e8e8e8, #b0b0b0)
-
-### JavaScript Functionality
-The dark mode toggle:
-1. Checks localStorage for saved theme preference on page load
-2. Applies the saved theme immediately
-3. Listens for toggle switch clicks
-4. Updates the HTML `data-theme` attribute
-5. Saves the new preference to localStorage
-6. Updates toggle UI (icon and text)
-
-## Usage
-
-### For Users
-1. Click the theme toggle switch in the top-right corner
-2. The interface will smoothly transition between light and dark modes
-3. Your preference is automatically saved and will be remembered on your next visit
-
-### For Developers
-
-**Adding New Themed Elements:**
-```css
-.your-element {
-  background: var(--card-bg);
-  color: var(--text-primary);
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "userId": "user-123",
+    "theme": "dark",
+    "language": "en",
+    "notifications": {
+      "email": true,
+      "push": false,
+      "sms": false
+    },
+    "privacy": {
+      "profileVisibility": "private",
+      "showEmail": false,
+      "showPhone": false
+    }
+  }
 }
 ```
 
-**Modifying Theme Colors:**
-Edit the CSS variables in `styles.css`:
-```css
-:root {
-  --card-bg: white;  /* Light mode */
-}
+### Create User Preferences
+```
+POST /api/preferences
+```
+Creates new preferences for a user.
 
-[data-theme="dark"] {
-  --card-bg: #0f3460;  /* Dark mode */
+**Headers:**
+- `Authorization: Bearer <token>`
+- `Content-Type: application/json`
+
+**Body:**
+```json
+{
+  "userId": "user-123",
+  "theme": "dark",
+  "language": "en",
+  "notifications": {
+    "email": true,
+    "push": false,
+    "sms": false
+  },
+  "privacy": {
+    "profileVisibility": "private",
+    "showEmail": false,
+    "showPhone": false
+  }
 }
 ```
 
-## Browser Compatibility
-- Modern browsers with CSS custom properties support
-- localStorage support required for preference persistence
-- Fallback to light mode if localStorage is unavailable
+### Update User Preferences (Full)
+```
+PUT /api/preferences/:userId
+```
+Completely updates all preference fields.
+
+**Headers:**
+- `Authorization: Bearer <token>`
+- `Content-Type: application/json`
+
+**Body:** Same as POST
+
+### Patch User Preferences (Partial)
+```
+PATCH /api/preferences/:userId
+```
+Partially updates specific preference fields.
+
+**Headers:**
+- `Authorization: Bearer <token>`
+- `Content-Type: application/json`
+
+**Body:**
+```json
+{
+  "theme": "light"
+}
+```
+
+### Delete User Preferences
+```
+DELETE /api/preferences/:userId
+```
+Deletes all preferences for a user.
+
+**Headers:**
+- `Authorization: Bearer <token>`
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd user-preferences-api
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+4. Set up the database:
+```bash
+npm run db:setup
+```
+
+5. Start the server:
+```bash
+# Development mode with auto-reload
+npm run dev
+
+# Production mode
+npm start
+```
 
 ## Testing
 
-### Manual Testing Checklist
-- [ ] Toggle switch changes visual state when clicked
-- [ ] Theme changes apply to all UI elements
-- [ ] Theme preference persists after page reload
-- [ ] Smooth transitions between themes
-- [ ] Responsive design works in both themes
-- [ ] Toggle UI updates correctly (icon and text)
+Run the test suite:
+```bash
+# Run all tests
+npm test
 
-### Browser Testing
-- [ ] Chrome/Edge (Chromium)
-- [ ] Firefox
-- [ ] Safari
-- [ ] Mobile browsers
+# Run tests in watch mode
+npm run test:watch
 
-## Accessibility
-- High contrast ratios maintained in both themes
-- User preference respected and persisted
-- Smooth transitions avoid jarring changes
-- Toggle is keyboard accessible
+# Run tests with coverage
+npm test -- --coverage
+```
 
-## Future Enhancements
-- System theme detection (prefers-color-scheme)
-- Additional theme options (e.g., high contrast, custom colors)
-- Theme scheduling (auto-switch based on time)
-- Export/import theme preferences
+## Configuration
 
-## Credits
-Developed by the Frontend Developer Agent for feature DM-001
-Branch: feature-dm-001
+### Environment Variables
+
+- `PORT`: Server port (default: 3000)
+- `NODE_ENV`: Environment (development, production, test)
+- `DB_HOST`: Database host
+- `DB_PORT`: Database port
+- `DB_USER`: Database user
+- `DB_PASSWORD`: Database password
+- `DB_NAME`: Database name
+- `JWT_SECRET`: Secret key for JWT tokens
+- `ALLOWED_ORIGINS`: Comma-separated list of allowed CORS origins
+
+## Database Schema
+
+The API uses a MySQL database with the following schema:
+
+```sql
+CREATE TABLE user_preferences (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(255) NOT NULL UNIQUE,
+  theme ENUM('light', 'dark', 'auto') DEFAULT 'light',
+  language VARCHAR(10) DEFAULT 'en',
+  notifications JSON,
+  privacy JSON,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+## Security
+
+- **Authentication**: All endpoints require JWT authentication
+- **Authorization**: Users can only access their own preferences
+- **Input Validation**: All inputs are validated and sanitized
+- **Security Headers**: Helmet.js adds security headers
+- **CORS**: Configurable CORS policy
+
+## Project Structure
+
+```
+.
+├── api/
+│   ├── app.js                          # Main application entry
+│   ├── config/
+│   │   └── database.js                 # Database configuration
+│   ├── controllers/
+│   │   └── userPreferencesController.js # Business logic
+│   ├── middleware/
+│   │   ├── authenticate.js             # Authentication middleware
+│   │   └── validation.js               # Validation middleware
+│   ├── models/
+│   │   └── UserPreferences.js          # Data model
+│   ├── routes/
+│   │   └── userPreferences.js          # API routes
+│   ├── database/
+│   │   └── schema.sql                  # Database schema
+│   └── tests/
+│       └── userPreferences.test.js     # API tests
+├── .env.example                        # Environment variables template
+├── package.json                        # Dependencies and scripts
+└── README.md                           # This file
+```
+
+## API Response Format
+
+All API responses follow a consistent format:
+
+**Success Response:**
+```json
+{
+  "success": true,
+  "data": { },
+  "message": "Operation successful"
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "message": "Error description",
+  "errors": [ ]
+}
+```
+
+## Error Codes
+
+- `200`: Success
+- `201`: Created
+- `400`: Bad Request (validation errors)
+- `401`: Unauthorized (missing or invalid token)
+- `403`: Forbidden (accessing other user's data)
+- `404`: Not Found
+- `409`: Conflict (resource already exists)
+- `500`: Internal Server Error
+
+## Development
+
+### Adding New Features
+
+1. Create a new branch from main
+2. Implement the feature
+3. Add tests
+4. Update documentation
+5. Submit for review
+
+### Code Style
+
+- Use ESLint for code linting
+- Follow consistent naming conventions
+- Add JSDoc comments for functions
+- Write meaningful commit messages
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
+
+For issues and questions, please open an issue in the repository.

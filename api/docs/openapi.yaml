@@ -1,0 +1,369 @@
+openapi: 3.0.0
+info:
+  title: User Preferences API
+  description: REST API for managing user preferences including theme, language, notifications, and privacy settings
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://api.example.com
+    description: Production server
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      tags:
+        - Health
+      responses:
+        '200':
+          description: API is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/preferences/{userId}:
+    get:
+      summary: Get user preferences
+      tags:
+        - Preferences
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: User preferences retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreferencesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      summary: Update user preferences (full update)
+      tags:
+        - Preferences
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: User ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreferencesInput'
+      responses:
+        '200':
+          description: Preferences updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreferencesResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    patch:
+      summary: Partially update user preferences
+      tags:
+        - Preferences
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: User ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartialPreferencesInput'
+      responses:
+        '200':
+          description: Preferences updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreferencesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    delete:
+      summary: Delete user preferences
+      tags:
+        - Preferences
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: Preferences deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/preferences:
+    post:
+      summary: Create new user preferences
+      tags:
+        - Preferences
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePreferencesInput'
+      responses:
+        '201':
+          description: Preferences created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreferencesResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Notifications:
+      type: object
+      properties:
+        email:
+          type: boolean
+          description: Enable email notifications
+        push:
+          type: boolean
+          description: Enable push notifications
+        sms:
+          type: boolean
+          description: Enable SMS notifications
+
+    Privacy:
+      type: object
+      properties:
+        profileVisibility:
+          type: string
+          enum: [public, private, friends]
+          description: Profile visibility setting
+        showEmail:
+          type: boolean
+          description: Show email on profile
+        showPhone:
+          type: boolean
+          description: Show phone on profile
+
+    PreferencesInput:
+      type: object
+      required:
+        - theme
+        - language
+      properties:
+        theme:
+          type: string
+          enum: [light, dark, auto]
+          description: UI theme preference
+        language:
+          type: string
+          pattern: '^[a-z]{2}(-[A-Z]{2})?$'
+          description: Language code (e.g., en, en-US)
+        notifications:
+          $ref: '#/components/schemas/Notifications'
+        privacy:
+          $ref: '#/components/schemas/Privacy'
+
+    CreatePreferencesInput:
+      allOf:
+        - $ref: '#/components/schemas/PreferencesInput'
+        - type: object
+          required:
+            - userId
+          properties:
+            userId:
+              type: string
+              description: User ID
+
+    PartialPreferencesInput:
+      type: object
+      properties:
+        theme:
+          type: string
+          enum: [light, dark, auto]
+        language:
+          type: string
+          pattern: '^[a-z]{2}(-[A-Z]{2})?$'
+        notifications:
+          $ref: '#/components/schemas/Notifications'
+        privacy:
+          $ref: '#/components/schemas/Privacy'
+
+    Preferences:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Database ID
+        userId:
+          type: string
+          description: User ID
+        theme:
+          type: string
+          enum: [light, dark, auto]
+        language:
+          type: string
+        notifications:
+          $ref: '#/components/schemas/Notifications'
+        privacy:
+          $ref: '#/components/schemas/Privacy'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PreferencesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Preferences'
+        message:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+
+  responses:
+    UnauthorizedError:
+      description: Authentication required or token invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 'No token provided. Authorization denied.'
+
+    ForbiddenError:
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 'Access denied. You can only access your own preferences.'
+
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 'User preferences not found'
+
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 'Validation failed'
+            errors:
+              - field: theme
+                message: 'Theme must be one of: light, dark, auto'
+
+    ConflictError:
+      description: Resource conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 'User preferences already exist. Use PUT to update.'
