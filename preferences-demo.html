@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Preferences API Demo - test_002</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .api-status {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .api-status.online {
+      background: #28a745;
+      color: white;
+    }
+
+    .api-status.offline {
+      background: #dc3545;
+      color: white;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    .demo-section h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 20px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      color: #555;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      font-family: monospace;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.2s;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.danger {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    }
+
+    button.secondary {
+      background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    }
+
+    .response {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+    }
+
+    .response pre {
+      margin: 0;
+      font-family: monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      color: #333;
+    }
+
+    .response.error {
+      border-left-color: #dc3545;
+      background: #f8d7da;
+    }
+
+    .response.success {
+      border-left-color: #28a745;
+      background: #d4edda;
+    }
+
+    .current-prefs {
+      background: #e7f3ff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+
+    .current-prefs h3 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .pref-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #cce5ff;
+    }
+
+    .pref-item:last-child {
+      border-bottom: none;
+    }
+
+    .pref-key {
+      font-weight: 600;
+      color: #555;
+    }
+
+    .pref-value {
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔧 User Preferences API Demo</h1>
+      <p class="subtitle">Feature test_002 - REST API for User Preferences</p>
+      <div id="apiStatus" class="api-status offline">Checking API...</div>
+    </div>
+
+    <!-- API Health Check -->
+    <div class="demo-section">
+      <h2>API Health Check</h2>
+      <button onclick="checkHealth()">Check API Health</button>
+      <div id="healthResponse"></div>
+    </div>
+
+    <!-- Save Preferences -->
+    <div class="demo-section">
+      <h2>Save User Preferences</h2>
+      <div class="form-group">
+        <label>User ID:</label>
+        <input type="text" id="saveUserId" value="user123" placeholder="Enter user ID">
+      </div>
+      <div class="form-group">
+        <label>Theme:</label>
+        <select id="saveTheme">
+          <option value="light">Light</option>
+          <option value="dark" selected>Dark</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Language:</label>
+        <select id="saveLanguage">
+          <option value="en" selected>English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Notifications:</label>
+        <select id="saveNotifications">
+          <option value="true" selected>Enabled</option>
+          <option value="false">Disabled</option>
+        </select>
+      </div>
+      <button onclick="savePreferences()">Save Preferences</button>
+      <div id="saveResponse"></div>
+    </div>
+
+    <!-- Get Preferences -->
+    <div class="demo-section">
+      <h2>Get User Preferences</h2>
+      <div class="form-group">
+        <label>User ID:</label>
+        <input type="text" id="getUserId" value="user123" placeholder="Enter user ID">
+      </div>
+      <button onclick="getPreferences()">Get Preferences</button>
+      <button class="secondary" onclick="getAllPreferences()">Get All Users</button>
+      <div id="getResponse"></div>
+      <div id="currentPrefs"></div>
+    </div>
+
+    <!-- Update Preferences -->
+    <div class="demo-section">
+      <h2>Update User Preferences</h2>
+      <div class="form-group">
+        <label>User ID:</label>
+        <input type="text" id="updateUserId" value="user123" placeholder="Enter user ID">
+      </div>
+      <div class="form-group">
+        <label>Update Data (JSON):</label>
+        <textarea id="updateData" placeholder='{"theme": "light"}'>{"theme": "light"}</textarea>
+      </div>
+      <button onclick="updatePreferences()">Update Preferences</button>
+      <div id="updateResponse"></div>
+    </div>
+
+    <!-- Delete Preferences -->
+    <div class="demo-section">
+      <h2>Delete User Preferences</h2>
+      <div class="form-group">
+        <label>User ID:</label>
+        <input type="text" id="deleteUserId" value="user123" placeholder="Enter user ID">
+      </div>
+      <button class="danger" onclick="deletePreferences()">Delete Preferences</button>
+      <div id="deleteResponse"></div>
+    </div>
+  </div>
+
+  <script src="api-client.js"></script>
+  <script>
+    // Initialize API client
+    const api = new UserPreferencesAPI('http://localhost:3000');
+
+    // Display response helper
+    function displayResponse(elementId, data, isError = false) {
+      const element = document.getElementById(elementId);
+      const className = isError ? 'error' : 'success';
+      element.innerHTML = `<div class="response ${className}"><pre>${JSON.stringify(data, null, 2)}</pre></div>`;
+    }
+
+    // Check API health on load
+    async function checkHealth() {
+      try {
+        const health = await api.checkHealth();
+        displayResponse('healthResponse', health);
+        document.getElementById('apiStatus').textContent = 'API Online';
+        document.getElementById('apiStatus').className = 'api-status online';
+      } catch (error) {
+        displayResponse('healthResponse', { error: error.message }, true);
+        document.getElementById('apiStatus').textContent = 'API Offline';
+        document.getElementById('apiStatus').className = 'api-status offline';
+      }
+    }
+
+    // Save preferences
+    async function savePreferences() {
+      try {
+        const userId = document.getElementById('saveUserId').value;
+        const preferences = {
+          theme: document.getElementById('saveTheme').value,
+          language: document.getElementById('saveLanguage').value,
+          notifications: document.getElementById('saveNotifications').value === 'true'
+        };
+        
+        const result = await api.savePreferences(userId, preferences);
+        displayResponse('saveResponse', result);
+      } catch (error) {
+        displayResponse('saveResponse', { error: error.message }, true);
+      }
+    }
+
+    // Get preferences
+    async function getPreferences() {
+      try {
+        const userId = document.getElementById('getUserId').value;
+        const result = await api.getUserPreferences(userId);
+        displayResponse('getResponse', result);
+        
+        // Display current preferences in a nice format
+        const prefs = result.data;
+        let prefsHTML = '<div class="current-prefs"><h3>Current Preferences</h3>';
+        for (const [key, value] of Object.entries(prefs)) {
+          prefsHTML += `<div class="pref-item"><span class="pref-key">${key}:</span><span class="pref-value">${JSON.stringify(value)}</span></div>`;
+        }
+        prefsHTML += '</div>';
+        document.getElementById('currentPrefs').innerHTML = prefsHTML;
+      } catch (error) {
+        displayResponse('getResponse', { error: error.message }, true);
+        document.getElementById('currentPrefs').innerHTML = '';
+      }
+    }
+
+    // Get all preferences
+    async function getAllPreferences() {
+      try {
+        const result = await api.getAllPreferences();
+        displayResponse('getResponse', result);
+        document.getElementById('currentPrefs').innerHTML = '';
+      } catch (error) {
+        displayResponse('getResponse', { error: error.message }, true);
+      }
+    }
+
+    // Update preferences
+    async function updatePreferences() {
+      try {
+        const userId = document.getElementById('updateUserId').value;
+        const updateData = JSON.parse(document.getElementById('updateData').value);
+        
+        const result = await api.updatePreferences(userId, updateData);
+        displayResponse('updateResponse', result);
+      } catch (error) {
+        displayResponse('updateResponse', { error: error.message }, true);
+      }
+    }
+
+    // Delete preferences
+    async function deletePreferences() {
+      if (!confirm('Are you sure you want to delete these preferences?')) {
+        return;
+      }
+      
+      try {
+        const userId = document.getElementById('deleteUserId').value;
+        const result = await api.deletePreferences(userId);
+        displayResponse('deleteResponse', result);
+      } catch (error) {
+        displayResponse('deleteResponse', { error: error.message }, true);
+      }
+    }
+
+    // Check health on page load
+    window.addEventListener('load', () => {
+      checkHealth();
+    });
+  </script>
+</body>
+</html>
