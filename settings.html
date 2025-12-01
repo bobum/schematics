@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Settings - Visual Connection Schematics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="settings-styles.css">
+    <link rel="stylesheet" href="telemetry-styles.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script src="telemetry.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-section">
+        <h1>⚙️ Settings</h1>
+        <a href="index.html" class="back-button">← Back to Home</a>
+      </div>
+      
+      <div class="settings-container">
+        <!-- Appearance Section -->
+        <div class="settings-section">
+          <div class="section-header">
+            <div class="section-icon">🎨</div>
+            <h2>Appearance</h2>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>Dark Mode</h3>
+              <p class="setting-description">Toggle between light and dark themes for comfortable viewing</p>
+            </div>
+            <div class="theme-toggle-container">
+              <span class="theme-toggle-label">
+                <span class="theme-icon" id="themeIcon">☀️</span>
+                <span id="themeText">Light Mode</span>
+              </span>
+              <div class="toggle-switch" id="themeToggle">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>Theme Preview</h3>
+              <p class="setting-description">See how the current theme looks</p>
+            </div>
+            <div class="theme-preview">
+              <div class="preview-card">
+                <div class="preview-header">Sample Card</div>
+                <div class="preview-content">
+                  <div class="preview-text">This is how your content will appear</div>
+                  <div class="preview-accent"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Display Preferences -->
+        <div class="settings-section">
+          <div class="section-header">
+            <div class="section-icon">📱</div>
+            <h2>Display Preferences</h2>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>Auto Theme</h3>
+              <p class="setting-description">Automatically switch theme based on system preference</p>
+            </div>
+            <div class="toggle-container">
+              <div class="toggle-switch" id="autoThemeToggle">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>Animations</h3>
+              <p class="setting-description">Enable or disable interface animations</p>
+            </div>
+            <div class="toggle-container">
+              <div class="toggle-switch active" id="animationsToggle">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- About Section -->
+        <div class="settings-section">
+          <div class="section-header">
+            <div class="section-icon">ℹ️</div>
+            <h2>About</h2>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>Application Version</h3>
+              <p class="setting-description">Visual Connection Schematics v1.0.0</p>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>Theme Status</h3>
+              <p class="setting-description" id="themeStatus">Current theme: Light Mode</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="settings-actions">
+          <button class="btn-primary" id="saveSettings">Save Settings</button>
+          <button class="btn-secondary" id="resetSettings">Reset to Defaults</button>
+        </div>
+      </div>
+      
+      <!-- Telemetry Dashboard -->
+      <div id="telemetryDashboard" class="telemetry-dashboard" style="display: none;">
+        <div class="telemetry-header">
+          <h2>📊 Telemetry Dashboard</h2>
+          <button id="closeTelemetry" class="close-btn">✕</button>
+        </div>
+        <div class="telemetry-content">
+          <div id="telemetryStats" class="telemetry-stats"></div>
+          <div id="telemetryEvents" class="telemetry-events"></div>
+        </div>
+      </div>
+      
+      <!-- Telemetry Toggle Button -->
+      <button id="showTelemetry" class="telemetry-toggle-btn" title="Show Telemetry Dashboard">📊</button>
+    </div>
+    
+    <script src="dark-mode.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>
