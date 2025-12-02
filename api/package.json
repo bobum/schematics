@@ -1,0 +1,42 @@
+{
+  "name": "user-preferences-api",
+  "version": "1.0.0",
+  "description": "REST API for managing user preferences with GET and PUT endpoints",
+  "main": "preferences.js",
+  "scripts": {
+    "start": "node server.example.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "dev": "nodemon server.example.js"
+  },
+  "keywords": [
+    "api",
+    "preferences",
+    "rest",
+    "express",
+    "user-settings"
+  ],
+  "author": "Development Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3",
+    "nodemon": "^2.0.22"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testMatch": [
+      "**/*.test.js"
+    ]
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
