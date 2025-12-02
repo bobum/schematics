@@ -1,0 +1,15 @@
+# Python dependencies for the user registration validation system
+
+# Web framework (optional - only needed for example_flask_app.py)
+Flask>=2.0.0
+
+# Testing (optional - for running tests)
+pytest>=7.0.0
+pytest-cov>=3.0.0
+
+# Password hashing (recommended for production)
+bcrypt>=4.0.0
+argon2-cffi>=21.0.0
+
+# Note: The core validation module (server_validation.py) has no external dependencies
+# and only requires Python 3.6+
