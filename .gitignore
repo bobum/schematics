@@ -18,6 +18,7 @@ yarn-error.log*
 # Testing
 coverage/
 .nyc_output/
+*.lcov
 
 # IDE
 .vscode/
@@ -25,7 +26,10 @@ coverage/
 *.swp
 *.swo
 *~
+
+# OS
 .DS_Store
+Thumbs.db
 
 # Build output
 dist/
