@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Preferences API Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="light"] {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        [data-theme="dark"] {
+            background-color: #1a1a2e;
+            color: #e8e8e8;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        [data-theme="dark"] .container {
+            background: #0f3460;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        [data-theme="dark"] h1 {
+            color: #81a4f1;
+        }
+
+        .preference-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        [data-theme="dark"] .preference-group {
+            border-color: #2d4563;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        select, input[type="checkbox"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        [data-theme="dark"] select {
+            background: #1a1a2e;
+            color: #e8e8e8;
+            border-color: #2d4563;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .current-prefs {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        [data-theme="dark"] .current-prefs {
+            background: #1a1a2e;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        [data-theme="dark"] pre {
+            background: #0a0a0a;
+            color: #e8e8e8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Preferences API Demo</h1>
+        
+        <div class="preference-group">
+            <label for="theme">Theme:</label>
+            <select id="theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </div>
+
+        <div class="preference-group">
+            <label for="fontSize">Font Size:</label>
+            <select id="fontSize">
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+            </select>
+        </div>
+
+        <div class="preference-group">
+            <label for="language">Language:</label>
+            <select id="language">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+            </select>
+        </div>
+
+        <div class="preference-group">
+            <label>
+                <input type="checkbox" id="notifications"> Enable Notifications
+            </label>
+        </div>
+
+        <div class="preference-group">
+            <label>
+                <input type="checkbox" id="autoSave"> Enable Auto-Save
+            </label>
+        </div>
+
+        <div>
+            <button onclick="loadPreferences()">Load Preferences</button>
+            <button onclick="savePreferences()">Save Preferences</button>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <div class="current-prefs">
+            <h3>Current Preferences:</h3>
+            <pre id="prefsDisplay">{}</pre>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000';
+
+        // Load preferences from API
+        async function loadPreferences() {
+            showStatus('Loading preferences...', 'success');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/preferences`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const prefs = data.data;
+                    
+                    // Update form fields
+                    document.getElementById('theme').value = prefs.theme;
+                    document.getElementById('fontSize').value = prefs.fontSize;
+                    document.getElementById('language').value = prefs.language;
+                    document.getElementById('notifications').checked = prefs.notifications;
+                    document.getElementById('autoSave').checked = prefs.autoSave;
+                    
+                    // Apply theme
+                    document.documentElement.setAttribute('data-theme', prefs.theme);
+                    
+                    // Display preferences
+                    document.getElementById('prefsDisplay').textContent = JSON.stringify(prefs, null, 2);
+                    
+                    showStatus('Preferences loaded successfully!', 'success');
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Save preferences to API
+        async function savePreferences() {
+            showStatus('Saving preferences...', 'success');
+            
+            const preferences = {
+                theme: document.getElementById('theme').value,
+                fontSize: document.getElementById('fontSize').value,
+                language: document.getElementById('language').value,
+                notifications: document.getElementById('notifications').checked,
+                autoSave: document.getElementById('autoSave').checked
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/preferences`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(preferences)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Apply theme immediately
+                    document.documentElement.setAttribute('data-theme', preferences.theme);
+                    
+                    // Display updated preferences
+                    document.getElementById('prefsDisplay').textContent = JSON.stringify(data.data, null, 2);
+                    
+                    showStatus('Preferences saved successfully!', 'success');
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // Load preferences on page load
+        window.addEventListener('DOMContentLoaded', loadPreferences);
+    </script>
+</body>
+</html>
