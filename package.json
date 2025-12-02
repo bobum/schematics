@@ -1,0 +1,36 @@
+{
+  "name": "visual-connection-schematics",
+  "version": "1.0.0",
+  "description": "Visual component connections and pin mappings with authentication",
+  "main": "src/auth.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [
+    "authentication",
+    "visualization",
+    "connections"
+  ],
+  "author": "Software Developer Agent",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 90,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/*.test.js"
+    ]
+  }
+}
