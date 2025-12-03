@@ -1,113 +1,256 @@
-# Visual Connection Schematics - Dark Mode Feature
+# User Registration Form with Validation
 
-## Overview
-This project visualizes component connections and pin mappings with a beautiful, interactive interface. The dark mode feature provides users with a comfortable viewing experience in low-light environments.
+A complete user registration system with comprehensive client-side and server-side validation.
 
 ## Features
 
-### Dark Mode Implementation (DM-001)
-- **Toggle Switch**: Intuitive UI toggle in the header for switching between light and dark themes
-- **Persistent Preference**: User's theme choice is saved in localStorage and restored on page reload
-- **Smooth Transitions**: All theme changes animate smoothly with CSS transitions
-- **Comprehensive Theming**: All UI elements adapt to the selected theme using CSS variables
+### Client-Side Validation
+- Real-time field validation
+- Email format validation using regex
+- Password strength requirements
+- Required field validation
+- Visual error feedback
+- Success message display
+
+### Server-Side Validation
+- RESTful API endpoint
+- Comprehensive validation functions
+- Input sanitization
+- Error handling
+- JSON response format
+
+## Validation Rules
+
+### Email
+- Required field
+- Must be valid email format (includes @ and domain)
+- Example: `user@example.com`
+
+### Password
+- Required field
+- Minimum 8 characters
+- At least one uppercase letter (A-Z)
+- At least one lowercase letter (a-z)
+- At least one number (0-9)
+- At least one special character (!@#$%^&*)
+- Example: `Test@123`
+
+### Username
+- Required field
+- Minimum 3 characters
+- Alphanumeric and underscore only
+- Example: `john_doe`
+
+### Full Name
+- Required field
+- Minimum 2 characters
+- Maximum 100 characters
+- Example: `John Doe`
+
+### Confirm Password
+- Required field
+- Must match password field exactly
 
 ## File Structure
 
 ```
 .
-├── index.html          # Main HTML structure with theme toggle UI
-├── styles.css          # Complete CSS with light/dark theme variables
-├── app.js              # Connection visualization logic
-├── dark-mode.js        # Dark mode toggle functionality
-└── README.md           # This file
+├── registration.html           # Client-side registration form
+├── validation.js              # Client-side validation logic
+├── server/
+│   ├── validation.js          # Server-side validation functions
+│   ├── registrationController.js  # Registration endpoint handler
+│   ├── server.js              # Express server setup
+│   └── package.json           # Server dependencies
+├── tests/
+│   └── validation.test.js     # Unit tests for validation
+└── README.md                  # This file
 ```
 
-## How It Works
+## Installation
 
-### CSS Variables
-The application uses CSS custom properties (variables) to manage theme colors:
+### Server Setup
 
-**Light Mode Colors:**
-- Background gradients: Purple/blue tones (#667eea, #764ba2)
-- Card backgrounds: White
-- Text: Dark gray (#333, #666)
+1. Navigate to the server directory:
+   ```bash
+   cd server
+   ```
 
-**Dark Mode Colors:**
-- Background gradients: Dark navy tones (#1a1a2e, #16213e)
-- Card backgrounds: Deep blue (#0f3460)
-- Text: Light gray (#e8e8e8, #b0b0b0)
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### JavaScript Functionality
-The dark mode toggle:
-1. Checks localStorage for saved theme preference on page load
-2. Applies the saved theme immediately
-3. Listens for toggle switch clicks
-4. Updates the HTML `data-theme` attribute
-5. Saves the new preference to localStorage
-6. Updates toggle UI (icon and text)
+3. Start the server:
+   ```bash
+   npm start
+   ```
+   
+   For development with auto-restart:
+   ```bash
+   npm run dev
+   ```
+
+4. Server will run on `http://localhost:3000`
 
 ## Usage
 
-### For Users
-1. Click the theme toggle switch in the top-right corner
-2. The interface will smoothly transition between light and dark modes
-3. Your preference is automatically saved and will be remembered on your next visit
+### Client-Side
 
-### For Developers
+1. Open `registration.html` in a web browser
+2. Fill out the registration form
+3. Real-time validation will provide immediate feedback
+4. Submit the form to see success message
 
-**Adding New Themed Elements:**
-```css
-.your-element {
-  background: var(--card-bg);
-  color: var(--text-primary);
+### API Endpoint
+
+**POST** `/api/register`
+
+**Request Body:**
+```json
+{
+  "fullName": "John Doe",
+  "email": "john@example.com",
+  "username": "johndoe",
+  "password": "Test@123",
+  "confirmPassword": "Test@123"
 }
 ```
 
-**Modifying Theme Colors:**
-Edit the CSS variables in `styles.css`:
-```css
-:root {
-  --card-bg: white;  /* Light mode */
-}
-
-[data-theme="dark"] {
-  --card-bg: #0f3460;  /* Dark mode */
+**Success Response (201):**
+```json
+{
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "username": "johndoe"
+  }
 }
 ```
 
-## Browser Compatibility
-- Modern browsers with CSS custom properties support
-- localStorage support required for preference persistence
-- Fallback to light mode if localStorage is unavailable
+**Error Response (400):**
+```json
+{
+  "success": false,
+  "message": "Validation failed",
+  "errors": {
+    "email": "Invalid email format",
+    "password": "Password must contain at least 8 characters, at least one uppercase letter"
+  }
+}
+```
 
 ## Testing
 
-### Manual Testing Checklist
-- [ ] Toggle switch changes visual state when clicked
-- [ ] Theme changes apply to all UI elements
-- [ ] Theme preference persists after page reload
-- [ ] Smooth transitions between themes
-- [ ] Responsive design works in both themes
-- [ ] Toggle UI updates correctly (icon and text)
+### Run Unit Tests
 
-### Browser Testing
-- [ ] Chrome/Edge (Chromium)
-- [ ] Firefox
-- [ ] Safari
-- [ ] Mobile browsers
+1. Navigate to the project root:
+   ```bash
+   cd ..
+   ```
 
-## Accessibility
-- High contrast ratios maintained in both themes
-- User preference respected and persisted
-- Smooth transitions avoid jarring changes
-- Toggle is keyboard accessible
+2. Install test dependencies:
+   ```bash
+   npm install --save-dev jest
+   ```
+
+3. Run tests:
+   ```bash
+   npm test
+   ```
+
+### Test Coverage
+
+The test suite includes comprehensive tests for:
+- Email validation (valid/invalid formats)
+- Password strength requirements
+- Username validation rules
+- Full name validation
+- Password matching
+- Complete form validation
+- Data sanitization
+
+## Validation Functions
+
+### Server-Side Functions
+
+- `validateEmail(email)` - Validates email format
+- `validatePassword(password)` - Checks password strength
+- `validateUsername(username)` - Validates username rules
+- `validateFullName(fullName)` - Validates full name
+- `validatePasswordMatch(password, confirmPassword)` - Checks password match
+- `validateRegistrationForm(formData)` - Validates entire form
+
+### Client-Side Functions
+
+- `validateEmail(email)` - Email format validation
+- `validatePassword(password)` - Password strength validation
+- `isNotEmpty(value)` - Required field validation
+- `validateUsername(username)` - Username validation
+- `validateForm()` - Complete form validation
+
+## Security Considerations
+
+1. **Client-side validation** provides user experience but is not a security measure
+2. **Server-side validation** is mandatory and validates all inputs
+3. Passwords should be hashed before storage (not implemented in this demo)
+4. HTTPS should be used in production
+5. Rate limiting should be implemented to prevent abuse
+6. CSRF protection should be added
+7. Input sanitization removes dangerous characters
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Dependencies
+
+### Server
+- `express` ^4.18.2 - Web framework
+- `body-parser` ^1.20.2 - Request body parsing
+
+### Development
+- `nodemon` ^3.0.1 - Auto-restart during development
+- `jest` ^29.5.0 - Testing framework
 
 ## Future Enhancements
-- System theme detection (prefers-color-scheme)
-- Additional theme options (e.g., high contrast, custom colors)
-- Theme scheduling (auto-switch based on time)
-- Export/import theme preferences
 
-## Credits
-Developed by the Frontend Developer Agent for feature DM-001
-Branch: feature-dm-001
+- [ ] Add password hashing (bcrypt)
+- [ ] Implement database storage
+- [ ] Add email verification
+- [ ] Implement rate limiting
+- [ ] Add CAPTCHA for bot protection
+- [ ] Implement OAuth social login
+- [ ] Add password strength meter UI
+- [ ] Implement "show password" toggle
+- [ ] Add username availability check
+- [ ] Implement session management
+
+## License
+
+MIT
+
+## Author
+
+Software Developer
+
+## Acceptance Criteria
+
+✅ **Email format validation** - Implemented with regex pattern matching
+
+✅ **Password strength requirements** - Enforced 8+ characters, uppercase, lowercase, number, and special character
+
+✅ **All fields required** - Validated on both client and server side
+
+✅ **Client-side validation** - Real-time feedback with visual indicators
+
+✅ **Server-side validation** - Comprehensive validation with sanitization
+
+✅ **Well-documented code** - Extensive comments and documentation
+
+✅ **Test coverage** - Comprehensive unit tests for all validation functions
