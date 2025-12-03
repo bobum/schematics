@@ -1,51 +1,78 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="utf-8">
-    <title>Visual Connection Schematics</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle App</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- PBI-126: Telemetry styles -->
-    <link rel="stylesheet" href="telemetry-styles.css">
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-    <script>
-      let datamodel = {"components": [{"name": "Widget A","function": "solution 1","plugs": [{"name": "p001","pins": [{"name": "aircraftPower","number": 1,"wireLabel": "w001"},{"name": "batteryGnd","number": 2,"wireLabel": "w002"},{"name": "audioLo","number": 3,"wireLabel": "w003"},{"name": "audioHi","number": 4,"wireLabel": "w003"},{"name": "out1A","number": 5,"wireLabel": "w004"},{"name": "in1A","number": 6,"wireLabel": "w004"},{"name": "in1B","number": 7,"wireLabel": "w004"}]}]},{"name": "Widget B","function": "solution 2","plugs": [{"name": "p1001","pins": [{"name": "audioLo","number": 9,"wireLabel": "w003"},{"name": "audioHi","number": 5,"wireLabel": "w003"}]},{"name": "p1002","pins": [{"name": "in1A","number": 1,"wireLabel": "w004"},{"name": "out1A","number": 2,"wireLabel": "w004"},{"name": "out1B","number": 6,"wireLabel": "w004"}]}]}]};
-    </script>
-    <!-- PBI-126: Telemetry script loaded first to capture all events -->
-    <script src="telemetry.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <div class="header-section">
-        <h1>🔌 Connection Schematics Visualization</h1>
-        <div class="theme-toggle-container">
-          <span class="theme-toggle-label">
-            <span class="theme-icon" id="themeIcon">☀️</span>
-            <span id="themeText">Light Mode</span>
-          </span>
-          <div class="toggle-switch" id="themeToggle">
-            <div class="toggle-slider"></div>
-          </div>
-        </div>
-      </div>
-      <div id="output" class="connections-grid"></div>
-      <div id="stats" class="connection-stats" style="max-width: 600px; margin: 30px auto;"></div>
-      
-      <!-- PBI-126: Telemetry Dashboard -->
-      <div id="telemetryDashboard" class="telemetry-dashboard" style="display: none;">
-        <div class="telemetry-header">
-          <h2>📊 Telemetry Dashboard</h2>
-          <button id="closeTelemetry" class="close-btn">✕</button>
-        </div>
-        <div class="telemetry-content">
-          <div id="telemetryStats" class="telemetry-stats"></div>
-          <div id="telemetryEvents" class="telemetry-events"></div>
-        </div>
-      </div>
-      
-      <!-- PBI-126: Telemetry Toggle Button -->
-      <button id="showTelemetry" class="telemetry-toggle-btn" title="Show Telemetry Dashboard">📊</button>
+        <header>
+            <h1>Dark Mode Toggle</h1>
+            <button id="settingsBtn" class="settings-btn" aria-label="Open settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m0-18a9 9 0 0 1 9 9m-18 0a9 9 0 0 1 9-9"></path>
+                </svg>
+            </button>
+        </header>
+
+        <main>
+            <section class="card">
+                <h2>Welcome to the Dark Mode Demo</h2>
+                <p>This application demonstrates a fully functional dark mode toggle with smooth transitions and persistent settings.</p>
+                <p>Click the settings button in the header to toggle between light and dark modes.</p>
+            </section>
+
+            <section class="card">
+                <h2>Features</h2>
+                <ul>
+                    <li>Toggle persists across browser sessions using localStorage</li>
+                    <li>Smooth transition animations between modes</li>
+                    <li>All components fully support both light and dark themes</li>
+                    <li>Accessible and user-friendly interface</li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h2>Color Showcase</h2>
+                <div class="color-grid">
+                    <div class="color-box primary">Primary</div>
+                    <div class="color-box secondary">Secondary</div>
+                    <div class="color-box accent">Accent</div>
+                    <div class="color-box muted">Muted</div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Dark Mode Toggle App. All rights reserved.</p>
+        </footer>
     </div>
-    <script src="dark-mode.js"></script>
-    <script src="app.js"></script>
-  </body>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="closeModal" class="close-btn" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Dark Mode</h3>
+                        <p>Toggle between light and dark theme</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
