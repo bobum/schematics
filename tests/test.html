@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle - Test Suite</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #2196f3;
+            padding-bottom: 10px;
+        }
+
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .test-section h2 {
+            color: #2196f3;
+            margin-top: 0;
+        }
+
+        .test-case {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .test-case h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .test-steps {
+            margin: 10px 0;
+        }
+
+        .test-steps ol {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+
+        .test-steps li {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .expected {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .expected strong {
+            color: #2e7d32;
+        }
+
+        .test-link {
+            display: inline-block;
+            background: #2196f3;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .test-link:hover {
+            background: #1976d2;
+        }
+
+        .checklist {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .checklist h3 {
+            color: #f57c00;
+            margin-top: 0;
+        }
+
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            color: #666;
+        }
+
+        .checklist li:before {
+            content: "☐ ";
+            color: #ff9800;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .status.pass {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .status.manual {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Dark Mode Toggle - Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>Test Environment</h2>
+        <a href="../index.html" class="test-link" target="_blank">Open Application for Testing →</a>
+        <p>Open the application in a new tab and follow the test cases below.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Acceptance Criteria Verification</h2>
+        
+        <div class="test-case">
+            <h3>✅ Criterion 1: Toggle persists across sessions</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open the application</li>
+                    <li>Click the settings icon</li>
+                    <li>Toggle dark mode ON</li>
+                    <li>Close the modal</li>
+                    <li>Refresh the page (F5 or Ctrl+R)</li>
+                    <li>Observe if dark mode is still enabled</li>
+                    <li>Toggle dark mode OFF</li>
+                    <li>Refresh the page again</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> Dark mode preference should persist after page refresh. The application should remember your last choice.
+            </div>
+        </div>
+
+        <div class="test-case">
+            <h3>✅ Criterion 2: Smooth transition animation</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open the application</li>
+                    <li>Click the settings icon</li>
+                    <li>Toggle dark mode ON and OFF multiple times</li>
+                    <li>Observe the transitions of:</li>
+                    <ul>
+                        <li>Background colors</li>
+                        <li>Text colors</li>
+                        <li>Card backgrounds</li>
+                        <li>Border colors</li>
+                    </ul>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> All color changes should transition smoothly over 0.3 seconds. No jarring or instant changes.
+            </div>
+        </div>
+
+        <div class="test-case">
+            <h3>✅ Criterion 3: All components support both modes</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open the application</li>
+                    <li>Examine all components in LIGHT mode:</li>
+                    <ul>
+                        <li>Header and title</li>
+                        <li>Settings button</li>
+                        <li>Content cards</li>
+                        <li>Color showcase boxes</li>
+                        <li>Footer</li>
+                        <li>Settings modal</li>
+                        <li>Toggle switch</li>
+                    </ul>
+                    <li>Toggle to DARK mode</li>
+                    <li>Verify all components have updated appropriately</li>
+                    <li>Check for any components that didn't change</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> Every visible component should have appropriate colors in both themes. No components should remain in the wrong theme.
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Additional Functionality Tests</h2>
+        
+        <div class="test-case">
+            <h3>🔧 Modal Functionality</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Click the settings icon - modal should open</li>
+                    <li>Click the X button - modal should close</li>
+                    <li>Open modal again</li>
+                    <li>Click outside the modal (on the dark background) - should close</li>
+                    <li>Open modal again</li>
+                    <li>Press ESC key - should close</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> Modal opens and closes smoothly with all three methods.
+            </div>
+        </div>
+
+        <div class="test-case">
+            <h3>🔧 Keyboard Navigation</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Use Tab key to navigate to settings button</li>
+                    <li>Press Enter to open modal</li>
+                    <li>Modal should open with focus on toggle</li>
+                    <li>Use Space or Enter to toggle dark mode</li>
+                    <li>Press ESC to close modal</li>
+                    <li>Focus should return to settings button</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> Full keyboard accessibility. Users should be able to navigate and use all features without a mouse.
+            </div>
+        </div>
+
+        <div class="test-case">
+            <h3>🔧 Responsive Design</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open browser DevTools (F12)</li>
+                    <li>Toggle device toolbar (Ctrl+Shift+M)</li>
+                    <li>Test on mobile (375px width)</li>
+                    <li>Test on tablet (768px width)</li>
+                    <li>Test on desktop (1200px+ width)</li>
+                    <li>Verify dark mode works on all sizes</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> Application should be usable and dark mode should work on all screen sizes.
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Browser Compatibility Tests</h2>
+        <div class="checklist">
+            <h3>Test in Multiple Browsers:</h3>
+            <ul>
+                <li>Google Chrome (latest)</li>
+                <li>Mozilla Firefox (latest)</li>
+                <li>Microsoft Edge (latest)</li>
+                <li>Safari (latest) - if available</li>
+            </ul>
+            <p><strong>Note:</strong> Dark mode should work consistently across all modern browsers.</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Performance Tests</h2>
+        
+        <div class="test-case">
+            <h3>⚡ localStorage Verification</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open browser DevTools (F12)</li>
+                    <li>Go to Application tab (Chrome) or Storage tab (Firefox)</li>
+                    <li>Select localStorage</li>
+                    <li>Toggle dark mode in the application</li>
+                    <li>Observe the 'darkModePreference' value changing</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> localStorage should show 'darkModePreference' key with value 'true' or 'false'.
+            </div>
+        </div>
+
+        <div class="test-case">
+            <h3>⚡ Transition Smoothness</h3>
+            <span class="status manual">Manual Test</span>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open browser DevTools (F12)</li>
+                    <li>Go to Performance tab</li>
+                    <li>Start recording</li>
+                    <li>Toggle dark mode several times</li>
+                    <li>Stop recording</li>
+                    <li>Check for frame drops or janky animations</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong> Smooth 60fps transitions with no significant frame drops.
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Final Checklist</h2>
+        <div class="checklist">
+            <ul>
+                <li>Dark mode toggle works correctly</li>
+                <li>Settings persist after page refresh</li>
+                <li>All transitions are smooth (0.3s)</li>
+                <li>All components support both themes</li>
+                <li>Modal opens and closes properly</li>
+                <li>Keyboard navigation works</li>
+                <li>Responsive on all screen sizes</li>
+                <li>No console errors</li>
+                <li>localStorage is used correctly</li>
+                <li>Code is clean and documented</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Test Completion</h2>
+        <p>Once all tests pass, the feature is ready for:</p>
+        <ul>
+            <li>Code review</li>
+            <li>Merge to main branch</li>
+            <li>Production deployment</li>
+        </ul>
+    </div>
+</body>
+</html>
